@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<videos>
+    <video name="abc" date="2013-11-19">
+        <attr tag="导演">李</attr>
+        <attr tag="演员">李1</attr>
+        <attr tag="评分">9.2</attr>
+        <poster img="image(1).png" />
+        <page link="http://www.baidu.com" />
+        <playtimes>12000000</playtimes>
+    </video>
+</videos>
