@@ -15,8 +15,6 @@ Window {
     visible: true;
 
     property int socket_ptr: 0
-    //property string local_IP: "192.168.1.5"
-    //property int local_port: 9212
     property string local_IP: "127.0.0.1"
     property int local_port: 8080
 
@@ -111,6 +109,7 @@ Window {
     Component.onCompleted: {
         initDBServerQuery(loginName,passWord,dbDriver,dbNameCNC);
         text0.text = dbQueConnectFlag
+
     }
 
     TcpServer{
@@ -394,19 +393,80 @@ Window {
                 }
 
                 text1.text = sendArr[0]
-                //                for(i=0;i < (56 + j * 3);i++){
-                //                    sendArr_real[i] = sendArr[i]
-                //                }
                 sendArr[55] = j
                 sendArr[56] = setspeed_errRun
                 sendArr[57] = setfeedrate_errRun
 
-                //发送数据
                 if(tcpserver.accecptNewCon(socketptr) === 1){
                     tcpserver.sendToHost(socket_ptr, sendArr.slice(0,58+j*3));
                 }
-                else
+                else{
                     text1.text += "\naccept Fail"
+                }
+                //初始化
+                i = 0
+                j = 0
+                k = 0
+                n0 = 0;
+                n1 = 0;
+                n2 = 0;
+                n3 = 0;
+                n4 = 0;
+                m1 = 0      //GSJ005总数
+                m1_0 = 0    //GSJ005离线数
+                m1_1 = 0    //GSJ005待机数
+                m1_2 = 0    //GSJ005怠速数
+                m1_3 = 0    //GSJ005运行数
+                m1_4 = 0    //GSJ005报警数
+
+                m2 = 0      //GSJ006总数
+                m2_0 = 0    //GSJ006离线数
+                m2_1 = 0    //GSJ006待机数
+                m2_2 = 0    //GSJ006怠速数
+                m2_3 = 0    //GSJ006运行数
+                m2_4 = 0    //GSJ006报警数
+
+                m3 = 0      //SKJ005总数
+                m3_0 = 0    //SKJ005离线数
+                m3_1 = 0    //SKJ005待机数
+                m3_2 = 0    //SKJ005怠速数
+                m3_3 = 0    //SKJ005运行数
+                m3_4 = 0    //SKJ005报警数
+
+                m4 = 0      //SKJ006总数
+                m4_0 = 0    //SKJ006离线数
+                m4_1 = 0    //SKJ006待机数
+                m4_2 = 0    //SKJ006怠速数
+                m4_3 = 0    //SKJ006运行数
+                m4_4 = 0    //SKJ006报警数
+
+                m5 = 0      //SKJ010总数
+                m5_0 = 0    //SKJ010离线数
+                m5_1 = 0    //SKJ010待机数
+                m5_2 = 0    //SKJ010怠速数
+                m5_3 = 0    //SKJ010运行数
+                m5_4 = 0    //SKJ010报警数
+
+                m6 = 0      //SKJ011总数
+                m6_0 = 0    //SKJ011离线数
+                m6_1 = 0    //SKJ011待机数
+                m6_2 = 0    //SKJ011怠速数
+                m6_3 = 0    //SKJ011运行数
+                m6_4 = 0    //SKJ011报警数
+
+                m7 = 0      //SKJ012总数
+                m7_0 = 0    //SKJ012离线数
+                m7_1 = 0    //SKJ012待机数
+                m7_2 = 0    //SKJ012怠速数
+                m7_3 = 0    //SKJ012运行数
+                m7_4 = 0    //SKJ012报警数
+
+                m8 = 0      //SKJ013总数
+                m8_0 = 0    //SKJ013离线数
+                m8_1 = 0    //SKJ013待机数
+                m8_2 = 0    //SKJ013怠速数
+                m8_3 = 0    //SKJ013运行数
+                m8_4 = 0    //SKJ013报警数
             }
         }
     }
