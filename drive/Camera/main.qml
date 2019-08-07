@@ -16,6 +16,7 @@ Window {
     Timer
     {
         id: timer
+        interval : 0
         onTriggered:
         {
             captureandshow()
@@ -23,16 +24,16 @@ Window {
         }
     }
 
-    CameraCalibration
-    {
-        id: cali
-        onError: label2.text = "cali error: " + msg + "\r\n"
-    }
+    //    CameraCalibration
+    //    {
+    //        id: cali
+    //        onError: label2.text = "cali error: " + msg + "\r\n"
+    //    }
 
-    CVImgCodecs
-    {
-        id: codecs
-    }
+    //    CVImgCodecs
+    //    {
+    //        id: codecs
+    //    }
 
     CVImgProc
     {
@@ -43,8 +44,8 @@ Window {
     {
         id: v4l2
         visible:  true
-        x: 15
-        y: 18
+        x: 46
+        y: 83
         width: 481
         height: 394
         property  int ptr: 0
@@ -54,17 +55,20 @@ Window {
         property int valid_count: 0
         property var cali_show_pic
         onStatusReport:  label1.text += label1.text + " " + msg;
-
     }
 
     //Open Camera
     Button {
         id: button
-        x: 515
-        y: 18
-        text: qsTr("Open Camera")
+        x: 591
+        y: 191
+        width: 139
+        height: 40
+        text: qsTr("打开相机")
+        enabled : true
         onClicked:
         {
+            button.enabled=false;
             if(v4l2.openCamera("/dev/video0", 0, 0) >= 0)
                 //if(v4l2.openCamera("/dev/video0", 0, 1) >= 0)
                 label2.text += "open ok\r\n";
@@ -99,71 +103,89 @@ Window {
             }
             else
                 label2.text += "start caputuring fail\r\n"
-            timer.interval = 0
+
             timer.start()
+            //captureandshow()
         }
     }
 
+
+    //    Button {
+    //        id: cali_shot
+    //        x: 515
+    //        y: 320
+    //        width: 147
+    //        height: 40
+    //        text: qsTr("Calibration")
+    //        enabled: false
+    //        onClicked:
+    //        {
+    //            v4l2.shot_a_cali = 1
+    //        }
+    //    }
+
+
+    //Capture
     Button {
-        id: cali_shot
-        x: 515
-        y: 320
-        width: 147
+        id: capture
+        x: 591
+        y: 299
+        width: 139
         height: 40
-        text: qsTr("Calibration")
+        text: qsTr("捕捉画面")
         enabled: false
         onClicked:
         {
-            v4l2.shot_a_cali = 1
+            /*f(timerck.checked)
+            {
+                timer.start()
+            }
+            else*/
+            timer.stop()
+            captureandshow()
+            //timer.start()
+
+//            v4l2.ptr = v4l2.getFrame()
+//            if(v4l2.ptr == 0)
+//                label1.text += " getframe fail"  //读取失败
+//            else
+//                label1.text = " getframe= " + ptr //读取成功
         }
     }
 
-    Label {
-        id: label2
-        x: 15
-        y: 503
+    //    CheckBox {
+    //        id: timerck
+    //        x: 515
+    //        y: 86
+    //        text: qsTr("Timer")
+    //    }
+
+    //    Button {
+    //        id: loadconfig
+    //        x: 515
+    //        y: 177
+    //        text: qsTr("Load config file")
+    //        onClicked:
+    //        {
+    //            if(cali.loadCalibrationConfigFile() === 0)
+    //                cali_shot.enabled = true
+    //            //label2.text += "node: " + cali.readConfigNode("BoardSize_Width") + "\r\n"
+    //        }
+    //    }
+    Label{
+        id: label1
+        x:15
+        y: 530
         width: 481
         height: 70
     }
 
-    Button {
-        id: capture
-        x: 515
-        y: 240
-        width: 199
-        height: 40
-        text: qsTr("Capture")
-        enabled: false
-        onClicked:
-        {
-            if(timerck.checked)
-            {
-                timer.start()
-            }
-            else
-                captureandshow()
-        }
-    }
-
-    CheckBox {
-        id: timerck
-        x: 515
-        y: 86
-        text: qsTr("Timer")
-    }
-
-    Button {
-        id: loadconfig
-        x: 515
-        y: 177
-        text: qsTr("Load config file")
-        onClicked:
-        {
-            if(cali.loadCalibrationConfigFile() === 0)
-                cali_shot.enabled = true
-
-            //label2.text += "node: " + cali.readConfigNode("BoardSize_Width") + "\r\n"
-        }
+    Label {
+        id: label2
+        x: 40
+        y: 503
+        width: 481
+        height: 70
     }
 
     Label {
