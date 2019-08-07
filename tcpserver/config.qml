@@ -26,7 +26,7 @@ Window {
     //property string loginName: "admin"
     //property string passWord: "admin@$^"
     property string loginName: "root"
-    property string passWord: "deway"
+    property string passWord: "1234"
     property string dbNameCNC: "bosen_cnc"
     property bool dbCalConnectFlag: false   // 数据库连接标志位
     property bool dbQueConnectFlag: true // 数据库连接标志位
@@ -109,6 +109,7 @@ Window {
     Component.onCompleted: {
         initDBServerQuery(loginName,passWord,dbDriver,dbNameCNC);
         text0.text = dbQueConnectFlag
+
     }
 
     TcpServer{
@@ -342,7 +343,7 @@ Window {
                     //统计所有设备运行情况
                     for(i=0,j=0; i<tempLen1; i++){
                         if(tempArr2[i][1] >= (setspeed_errRun * 100 * 1.1) || tempArr2[i][1] <= (setspeed_errRun * 100 * 0.9) || tempArr2[i][2] >= (setfeedrate_errRun * 100 * 1.1) || tempArr2[i][2] <= (setfeedrate_errRun * 100 * 0.9))
-                            if(tempArr2[i][0] ===  "Bofsen001"){
+                            if(tempArr2[i][0] ===  "Bosen001"){
                                 id_errRun[j] = 1
                                 speed_errRun[j] = tempArr2[i][1] / 100
                                 feedrate_errRun[j++] = tempArr2[i][2] /100
