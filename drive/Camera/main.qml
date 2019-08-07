@@ -1,0 +1,211 @@
+import QtQuick 2.0
+import QtQuick.Controls 2.0
+import QtQuick.Window 2.0
+
+import dw.Linux.V4L2 1.0
+import dw.OpenCV.CVImgCodecs 1.0
+import dw.CameraCalibration 1.0
+import dw.OpenCV.ImgProc.CVImgProc 1.0
+
+
+Window {
+    visible: true
+    width: 800
+    height:600
+
+    Timer
+    {
+        id: timer
+        onTriggered:
+        {
+            captureandshow()
+            timer.start()
+        }
+    }
+
+    CameraCalibration
+    {
+        id: cali
+        onError: label2.text = "cali error: " + msg + "\r\n"
+    }
+
+    CVImgCodecs
+    {
+        id: codecs
+    }
+
+    CVImgProc
+    {
+        id: imgproc
+    }
+
+    V4L2
+    {
+        id: v4l2
+        visible:  true
+        x: 15
+        y: 18
+        width: 481
+        height: 394
+        property  int ptr: 0
+        property int size: 0
+        property int loadconfig: 0
+        property int shot_a_cali: 0
+        property int valid_count: 0
+        property var cali_show_pic
+        onStatusReport:  label1.text += label1.text + " " + msg;
+
+    }
+
+    //Open Camera
+    Button {
+        id: button
+        x: 515
+        y: 18
+        text: qsTr("Open Camera")
+        onClicked:
+        {
+            if(v4l2.openCamera("/dev/video0", 0, 0) >= 0)
+                //if(v4l2.openCamera("/dev/video0", 0, 1) >= 0)
+                label2.text += "open ok\r\n";
+            else
+                label2.text += "open fail\r\n";
+            //label2.text = "cap: " +  v4l2.ioctlCamera("VIDIOC_QUERYCAP", 0);
+            //label2.text = "cap: " +  v4l2.ioctlCamera("VIDIOC_QUERYSTD", 0);
+
+            //label1.text = "cap: "
+
+            if(v4l2.setFMT(640,480,"V4L2_PIX_FMT_YUYV") >= 0)
+                //if(v4l2.setFMT(640,480,"V4L2_PIX_FMT_MJPEG") >=0)
+                label2.text += "set fmt ok\r\n"
+            else
+                label2.text += "set fmt fail\r\n"
+
+            if(v4l2.setFPS(30) >= 0)
+                //if(v4l2.setFMT(640,480,"V4L2_PIX_FMT_MJPEG") >=0)
+                label2.text += "set fps ok\r\n"
+            else
+                label2.text += "set fps fail\r\n"
+            if(v4l2.setNMAP(4) >= 0)
+                //if(v4l2.setFMT(640,480,"V4L2_PIX_FMT_MJPEG") >=0)
+                label2.text += "set nmap ok\r\n"
+            else
+                label2.text += "set nmap fail\r\n"
+            if(v4l2.startCapturing() >= 0)
+                //if(v4l2.setFMT(640,480,"V4L2_PIX_FMT_MJPEG") >=0)
+            {
+                label2.text += "start caputuring ok\r\n"
+                capture.enabled = true
+            }
+            else
+                label2.text += "start caputuring fail\r\n"
+            timer.interval = 0
+            timer.start()
+        }
+    }
+
+    Button {
+        id: cali_shot
+        x: 515
+        y: 320
+        width: 147
+        height: 40
+        text: qsTr("Calibration")
+        enabled: false
+        onClicked:
+        {
+            v4l2.shot_a_cali = 1
+        }
+    }
+
+    Label {
+        id: label2
+        x: 15
+        y: 503
+        width: 481
+        height: 70
+    }
+
+    Button {
+        id: capture
+        x: 515
+        y: 240
+        width: 199
+        height: 40
+        text: qsTr("Capture")
+        enabled: false
+        onClicked:
+        {
+            if(timerck.checked)
+            {
+                timer.start()
+            }
+            else
+                captureandshow()
+        }
+    }
+
+    CheckBox {
+        id: timerck
+        x: 515
+        y: 86
+        text: qsTr("Timer")
+    }
+
+    Button {
+        id: loadconfig
+        x: 515
+        y: 177
+        text: qsTr("Load config file")
+        onClicked:
+        {
+            if(cali.loadCalibrationConfigFile() === 0)
+                cali_shot.enabled = true
+
+            //label2.text += "node: " + cali.readConfigNode("BoardSize_Width") + "\r\n"
+        }
+    }
+
+    Label {
+        id: label3
+        x: 22
+        y: 425
+        width: 474
+        height: 52
+        wrapMode: Text.WrapAnywhere
+    }
+
+    function captureandshow()
+    {
+        v4l2.ptr = v4l2.getFrame()
+        if(v4l2.ptr == 0)
+            label2.text += "  getframe fail"
+        else
+            label2.text = " getframe= " + v4l2.ptr
+        if(v4l2.setFrameforDisplay(v4l2.ptr) < 0)
+            label2.text = "  setDisplay fail"
+        else
+        {
+            if(v4l2.shot_a_cali == 1)
+            {
+                v4l2.cali_show_pic = codecs.createMat()
+                //                if(cali.checkCalibration(v4l2.ptr, v4l2.cali_show_pic) >= 0)
+                //                {
+                label3.text = "This picture is ok for calibration\r\n"
+                var cali_filename = "cali_" + v4l2.valid_count + ".png\r\n"
+                label3.text += "cali_filename: " + cali_filename + "\r\n"
+                //cali.saveCalibrationPICToDir(v4l2.ptr, cali_filename)
+                //cali.saveCalibrationPICToDir(v4l2.cali_show_pic, cali_filename)
+
+                //                }
+                //                else
+                //                    label3.text = "This picture is not valid for calibration, do it again\r\n"
+                v4l2.shot_a_cali = 0;
+                codecs.freeMat(v4l2.cali_show_pic)
+            }
+        }
+        v4l2.freeFrame(v4l2.ptr)
+    }
+
+}
+
