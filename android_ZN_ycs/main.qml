@@ -18,6 +18,8 @@ Window {
     width: 360
     height: 640
 
+    property var stsColorArr: ["#A9A9A9", "#FFC125", "#EEEE00", "#43CD80", "#EE3B3B"]    // 对应设备的离线、待机、怠速、运行、报警5个状态
+
     property int indexPage: 0;    // 故障代码生成器的页面状态值，确定当前所在的页面
     property int mcPage: 0;
     property string tabSel: "content/tab_selected.png"
@@ -28,11 +30,11 @@ Window {
     property var rate2: 2
 
     //设备状态图
-    property int value1: 10
-    property int value2: 20
-    property int value3: 20
-    property int value4: 20
-    property int value5: 20
+    property int value1: 4     //运行
+    property int value2: 2   //待机
+    property int value3: 3   //怠速
+    property int value4: 2   //离线
+    property int value5: 1   //报警
 
     // 屏幕适配标志位
     property real screenRate: (1080/win.width).toFixed(3);
@@ -103,23 +105,24 @@ Window {
         width:win.width;
         height: 104/screenRate;
         anchors.margins: 10/screenRate;
-        color: "#0c1d3b"
+        color: "#000080"
         Text {
             anchors.fill: parent;
-            //text:"上海贸易学校交通诱导牌v1.0.0";
             text:"模具工厂后台信息";
             horizontalAlignment: Text.AlignHCenter;
             verticalAlignment: Text.AlignVCenter;
-            font.pointSize: 14;
+            font.pointSize: 14/screenRate;
             color: "white";
         }
     }
+
 
     Column {
         id: mainRow;
         width: win.width;
         height: win.height-224/screenRate;
         anchors.top: rect1_bgImg.bottom;
+
 
         //实时监控
         Rectangle {
@@ -132,60 +135,41 @@ Window {
             visible: indexPage==0;
 
             //开机比、上线天数、正常圆图
-            Rectangle {
-                id: rect0_state
-                width: parent.width
-                //height: 450/screenRate
-                height : parent.height * 5/16
-                color: "#0c1d3b"
-
-                Button {
-                    id: setupbt;
-                    width: parent.width/3.5;
-                    height: 108/screenRate;
-                    anchors.left: rect0_state.left;
-                    anchors.leftMargin: 10;
-                    anchors.top: rect0_state.top;
-                    anchors.topMargin: 50;
-                    Text {
-                        anchors.centerIn: setupbt;
-                        text: qsTr("开机比：" + rate1 + "/" + rate2);
-                        font.pointSize: 11;
-                        font.family: "Microsoft YaHei";
-                        color:"#000080";
+            Image{
+                id:background
+                width: win.width
+                height: parent.height * 13/30
+                source: "content/background.png"
+                Rectangle{
+                    id: rate_rect
+                    width: parent.width / 3
+                    anchors.left: parent.left
+                    height: parent.height
+                    color:"#00000000"
+                    Text{
+                        id: rate_text
+                        color: "#fff"
+                        text: "1/2"
+                        font.pointSize: 22/screenRate
+                        anchors.topMargin: 240/screenRate
+                        anchors.top: parent.top
+                        anchors.horizontalCenter: parent.horizontalCenter
                     }
-//                    onClicked:{
-//                            tcpclient.connectToHost(target_ip, target_port, 0);
-//                    }
                 }
-
-                Image
-                {
-                    width: 120
-                    height: 120
-                    anchors.centerIn: parent
-                    source: "content/正常.png"
-                    fillMode: Image.PreserveAspectCrop
-                    clip: true
-                }
-
-                Button {
-                    id: exit;
-                    width: parent.width/3.5;
-                    height: 108/screenRate;
-                    anchors.right: rect0_state.right;
-                    anchors.rightMargin: 10;
-                    anchors.top: rect0_state.top;
-                    anchors.topMargin: 50;
-                    Component.onCompleted: {
-                        dateDiff(date2,date1)
-                    }
-                    Text {
-                        anchors.centerIn: exit;
-                        text: qsTr("上线天数：" + idays);
-                        font.pointSize: 12;
-                        font.family: "Microsoft YaHei";
-                        color:"#000080";
+                Rectangle{
+                    id: time_rect
+                    width: parent.width / 3
+                    anchors.right: parent.right
+                    height: parent.height
+                    color:"#00000000"
+                    Text{
+                        id: time_text
+                        color: "#fff"
+                        text: "33"
+                        font.pointSize: 20/screenRate
+                        anchors.topMargin: 240/screenRate
+                        anchors.top: parent.top
+                        anchors.horizontalCenter: parent.horizontalCenter
                     }
                 }
             }
@@ -194,13 +178,13 @@ Window {
                 id: rect0_time
                 width: parent.width
                 height: parent.height/30
-                anchors.bottom : rect0_state.bottom;
+                anchors.bottom : background.bottom;
                 anchors.bottomMargin: 10;
-                color: "#0c1d3b"
+                color: "#03135b"
                 Text {
                     id: time;
                     color: "#ffffff";
-                    font.pointSize: 10;
+                    font.pointSize: 12/screenRate;
                     anchors.centerIn: parent;
                 }
             }
@@ -210,11 +194,11 @@ Window {
                 width: parent.width
                 height: parent.height/20;
                 anchors.top: rect0_time.bottom;
-                color: "#DBF1FF"
+                color: "#fff"
                 Text {
                     id: alert
                     color: "#EC6901";
-                    font.pointSize: 10;
+                    font.pointSize: 12/screenRate;
                     anchors.top:parent.top;
                     anchors.topMargin: 8;
                     text: "     通知报警："
@@ -228,15 +212,24 @@ Window {
                 id: rect2_state;
                 width: mainRow.width
                 height: parent.height*13/20
-                color: "#DBF1FF";
+                color: "#fff";
                 //anchors.top : rect2_option.bottom
                 anchors.top : rect0_alart.bottom
+                Item{
+                    width:parent.width
+                    height: parent.height*1/6
+                    Row{
+                        width:parent.width
+                        height:parent.height
+                    }
+                }
+
                 ChartView {
                     id: chart
-                    title: "设备实时状态"
+                    //title: "设备实时状态"
                     anchors.fill: parent
                     // 示例的位置
-                    //                legend.visible: true   // 是否显示
+                   legend.visible: false   // 是否显示
                     //                legend.alignment: Qt.AlignLeft
                     // 边缘更加圆滑
                     antialiasing: true
@@ -244,12 +237,12 @@ Window {
                     //color: "#8AB846"; borderColor: "#163430" ;
                     PieSeries {
                         id: pieSeries
-                        size:0.7
-                        PieSlice { id: slice1; label: "运行"; value: value1; labelFont.pointSize: 11; }
-                        PieSlice { id: slice2; label: "待机"; value: value2; labelFont.pointSize: 11; }
-                        PieSlice { id: slice3; label: "怠速"; value: value3; labelFont.pointSize: 11; }
-                        PieSlice { id: slice4; label: "离线"; value: value4; labelFont.pointSize: 11; }
-                        PieSlice { id: slice5; label: "报警"; value: value5; labelFont.pointSize: 11; }
+                        size: 0.5
+                        PieSlice { id: slice1; label: "运行"; value: value1; labelFont.pointSize: 11; color:stsColorArr[3]}
+                        PieSlice { id: slice2; label: "报警"; value: value5; labelFont.pointSize: 11; color:stsColorArr[4]}
+                        PieSlice { id: slice3; label: "离线"; value: value4; labelFont.pointSize: 11; color:stsColorArr[0]}
+                        PieSlice { id: slice4; label: "待机"; value: value2; labelFont.pointSize: 11; color:stsColorArr[1]}
+                        PieSlice { id: slice5; label: "怠速"; value: value3; labelFont.pointSize: 11; color:stsColorArr[2]}
                     }
                 }
 
@@ -646,7 +639,7 @@ Window {
                     Image {
                         id: selImg;
                         height: parent.height-4;
-                        width: 22
+                        width: 68/screenRate
                         //anchors.fill: parent;
                         anchors.centerIn: parent;
                         source: indexPage==0 ? "content/inspect_blue.png" : "content/inspect_black.png";
@@ -667,7 +660,7 @@ Window {
                         //anchors.fill: parent;
                         anchors.centerIn: parent
                         height: parent.height - 4;
-                        width: 22
+                        width: 65/screenRate
                         source: indexPage==1 ? "content/mc_blue.png" : "content/mc_black.png";
                         MouseArea{
                             anchors.fill: parent;
@@ -686,7 +679,7 @@ Window {
                         //anchors.fill: parent;
                         anchors.centerIn: parent
                         height: parent.height;
-                        width: 22
+                        width: 65/screenRate
                         source: indexPage==2 ? "content/err_blue.png" : "content/err_black.png";
                         MouseArea{
                             anchors.fill: parent;
@@ -705,7 +698,7 @@ Window {
                         //anchors.fill: parent;
                         anchors.centerIn: parent
                         height: parent.height - 4;
-                        width: 22
+                        width: 65/screenRate
                         source: indexPage==3 ? "content/staff_blue.png" : "content/staff_black.png";
                         MouseArea{
                             anchors.fill: parent;
@@ -724,7 +717,7 @@ Window {
                         //anchors.fill: parent;
                         anchors.centerIn: parent
                         height: parent.height - 4;
-                        width: 22
+                        width: 65/screenRate
                         source: indexPage==4 ? "content/user_blue.png" : "content/user_black.png";
                         MouseArea{
                             anchors.fill: parent;
@@ -759,7 +752,7 @@ Window {
                         anchors.fill: parent;
                         verticalAlignment: Text.AlignVCenter;
                         horizontalAlignment: Text.AlignHCenter;
-                        font.pixelSize: 12
+                        font.pixelSize: 25/screenRate
                         text: "实时监控";
                         color: indexPage==0 ? "#000" : "#8a8a8a";
                         MouseArea{
@@ -779,7 +772,7 @@ Window {
                         anchors.fill: parent;
                         verticalAlignment: Text.AlignVCenter;
                         horizontalAlignment: Text.AlignHCenter;
-                        font.pixelSize: 12
+                        font.pixelSize: 25/screenRate
                         text: "设备效能";
                         color: indexPage==1 ? "#000" : "#8a8a8a";
                         MouseArea{
@@ -800,7 +793,7 @@ Window {
                         anchors.fill: parent;
                         verticalAlignment: Text.AlignVCenter;
                         horizontalAlignment: Text.AlignHCenter;
-                        font.pixelSize: 12
+                        font.pixelSize: 25/screenRate
                         text: "异常加工";
                         color: indexPage==2 ? "#000" : "#8a8a8a";
                         MouseArea{
@@ -821,7 +814,7 @@ Window {
                         anchors.fill: parent;
                         verticalAlignment: Text.AlignVCenter;
                         horizontalAlignment: Text.AlignHCenter;
-                        font.pixelSize: 12
+                        font.pixelSize: 25/screenRate
                         text: "员工绩效";
                         color: indexPage==3 ? "#000" : "#8a8a8a";
                         MouseArea{
@@ -842,7 +835,7 @@ Window {
                         anchors.fill: parent;
                         verticalAlignment: Text.AlignVCenter;
                         horizontalAlignment: Text.AlignHCenter;
-                        font.pixelSize: 12
+                        font.pixelSize: 25/screenRate
                         text: "我的";
                         color: indexPage==4 ? "#000" : "#8a8a8a";
                         MouseArea{
@@ -857,231 +850,6 @@ Window {
         }
     }
 
-    /*           //切换页面
-            Item{
-                width: parent.width;
-                height: 1000/screenRate;
-                Rectangle{
-                    width: parent.width;
-                    height: 100/screenRate;
-                    color: "#8199E1";
-                }
-
-                //异常加工
-                Rectangle {
-                    width: parent.width;
-                    height: parent.height;
-                    color: "#8199E1";
-                    visible: indexPage == 1
-                    Column{
-                        width: parent.width;
-                        height: parent.height;
-                        Rectangle {
-                            width:parent.width;
-                            height:100/screenRate;
-                            color:"#8199E1";
-                            ComboBox {
-                                width: 200
-                                model: [ "异常运行", "异常待机", "异常报警"]
-                                onCurrentIndexChanged: {
-                                    // 使用信号槽处理显示信息的变化情况
-                                    if(currentIndex == 0) {
-                                        mcPage = 0;
-                                    }
-                                    else if(currentIndex == 1) {
-                                        mcPage = 1;
-                                    }
-                                    else if(currentIndex == 2) {
-                                        mcPage = 2;
-                                    }
-                                    else if(currentIndex == 3) {
-                                        mcPage = 3;
-                                    }
-                                    else if(currentIndex == 4) {
-                                        mcPage = 4;
-                                    }
-                                    else if(currentIndex == 5) {
-                                        mcPage = 5;
-                                    }
-                                    else if(currentIndex == 6) {
-                                        mcPage = 6;
-                                    }
-                                    else if(currentIndex == 7) {
-                                        mcPage = 7;
-                                    }
-                                }
-                            }
-                        }
-                        Rectangle {
-                            width: parent.width;
-                            height: 800/screenRate;
-                            color: "#8199E1"
-                            ChartView {
-                                anchors.fill: parent
-                                theme: ChartView.ChartThemeQt
-                                antialiasing: true
-                                //legend.visible: false
-                                animationOptions: ChartView.AllAnimations
-                                legend{
-                                        visible: false
-                                        }
-                                PieSeries {
-                                    id: pieSeries_err
-                                    holeSize: 0.35;
-                                    PieSlice {
-                                        borderColor: "#000"
-                                        color: "#999999"
-                                        label: qsTr("离线")
-                                        labelVisible: true
-                                        value: 20
-                                    }
-                                    PieSlice {
-                                        borderColor: "#000"
-                                        color: "#FF6600"
-                                        label: qsTr("待机")
-                                        labelVisible: true
-                                        value: 20
-                                    }
-                                    PieSlice {
-                                        borderColor: "#000"
-                                        color: "#F1C40F"
-                                        label: qsTr("怠速")
-                                        labelVisible: true
-                                        value: 20
-                                    }
-                                    PieSlice {
-                                        borderColor: "#000"
-                                        color: "#27AE60"
-                                        label: qsTr("运行")
-                                        labelVisible: true
-                                        value: 20
-                                    }
-                                    PieSlice {
-                                        borderColor: "#000"
-                                        color: "#C0392B"
-                                        label: qsTr("报警")
-                                        labelVisible: true
-                                        value: 20
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                //员工绩效
-                Rectangle {
-                    width: parent.width;
-                    height: parent.height;
-                    color: "#8199E1";
-                    visible: indexPage == 2
-                    Column{
-                        width: parent.width;
-                        height: parent.height;
-                        Rectangle {
-                            width:parent.width;
-                            height:100/screenRate;
-                            color:"#8199E1";
-                            ComboBox {
-                                width: 200
-                                model: [ "换刀数据", "换料数据", "加工实效"]
-                                onCurrentIndexChanged: {
-                                    // 使用信号槽处理显示信息的变化情况
-                                    if(currentIndex == 0) {
-                                        mcPage = 0;
-                                    }
-                                    else if(currentIndex == 1) {
-                                        mcPage = 1;
-                                    }
-                                    else if(currentIndex == 2) {
-                                        mcPage = 2;
-                                    }
-                                    else if(currentIndex == 3) {
-                                        mcPage = 3;
-                                    }
-                                    else if(currentIndex == 4) {
-                                        mcPage = 4;
-                                    }
-                                    else if(currentIndex == 5) {
-                                        mcPage = 5;
-                                    }
-                                    else if(currentIndex == 6) {
-                                        mcPage = 6;
-                                    }
-                                    else if(currentIndex == 7) {
-                                        mcPage = 7;
-                                    }
-                                }
-                            }
-                        }
-                        Rectangle {
-                            width: parent.width;
-                            height: 800/screenRate;
-                            color: "#8199E1"
-                            ChartView {
-                                anchors.fill: parent
-                                theme: ChartView.ChartThemeQt
-                                antialiasing: true
-                                //legend.visible: false
-                                animationOptions: ChartView.AllAnimations
-                                legend{
-                                        visible: false
-                                        }
-                                PieSeries {
-                                    id: pieSeries_perfom
-                                    holeSize: 0.35;
-                                    PieSlice {
-                                        borderColor: "#000"
-                                        color: "#999999"
-                                        label: qsTr("离线")
-                                        labelVisible: true
-                                        value: 20
-                                    }
-                                    PieSlice {
-                                        borderColor: "#000"
-                                        color: "#FF6600"
-                                        label: qsTr("待机")
-                                        labelVisible: true
-                                        value: 20
-                                    }
-                                    PieSlice {
-                                        borderColor: "#000"
-                                        color: "#F1C40F"
-                                        label: qsTr("怠速")
-                                        labelVisible: true
-                                        value: 20
-                                    }
-                                    PieSlice {
-                                        borderColor: "#000"
-                                        color: "#27AE60"
-                                        label: qsTr("运行")
-                                        labelVisible: true
-                                        value: 20
-                                    }
-                                    PieSlice {
-                                        borderColor: "#000"
-                                        color: "#C0392B"
-                                        label: qsTr("报警")
-                                        labelVisible: true
-                                        value: 20
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-                Text {
-                    id: targetTemp;
-                    text: "192.168.0.28";
-                    visible: false;
-                }
-
-                Text {
-                    id: ledTemp;
-                    text: "192.168.0.100";
-                    visible: false;
-                }
-*/
 
     function setCurrentFault(index)
     {
