@@ -640,7 +640,7 @@ Window {
                 //anchors.top : parent.top;
                 //实时监控
                 Item {
-                    width: parent.width/4;
+                    width: parent.width/5;
                     height: parent.height/1.3;
                     z: indexPage==0 ? 5:4;
                     Image {
@@ -660,7 +660,7 @@ Window {
                 }
                 //设备效能
                 Item {
-                    width: (parent.width)/4;
+                    width: (parent.width)/5;
                     height: parent.height/1.3;
                     z: indexPage==1 ? 5:3;
                     Image {
@@ -679,7 +679,7 @@ Window {
                 }
                 //异常加工
                 Item {
-                    width: (parent.width)/4;
+                    width: (parent.width)/5;
                     height: parent.height/1.3;
                     z: indexPage==2 ? 5:2;
                     Image {
@@ -698,7 +698,7 @@ Window {
                 }
                 //员工绩效
                 Item {
-                    width: (parent.width)/4;
+                    width: (parent.width)/5;
                     height: parent.height/1.3;
                     z: indexPage==1 ? 5:3;
                     Image {
@@ -711,6 +711,25 @@ Window {
                             anchors.fill: parent;
                             onClicked: {
                                 setCurrentFault(3);
+                            }
+                        }
+                    }
+                }
+                //我的
+                Item {
+                    width: (parent.width)/5;
+                    height: parent.height/1.3;
+                    z: indexPage==1 ? 5:3;
+                    Image {
+                        //anchors.fill: parent;
+                        anchors.centerIn: parent
+                        height: parent.height - 4;
+                        width: 22
+                        source: indexPage==4 ? "content/user_blue.png" : "content/user_black.png";
+                        MouseArea{
+                            anchors.fill: parent;
+                            onClicked: {
+                                setCurrentFault(4);
                             }
                         }
                     }
@@ -732,7 +751,7 @@ Window {
                 // anchors.top : parent.top;
                 //实时监控
                 Item {
-                    width: (parent.width)/4;
+                    width: (parent.width)/5;
                     height: parent.height;
                     z: indexPage==0 ? 5:4;
                     //实时监控
@@ -742,6 +761,7 @@ Window {
                         horizontalAlignment: Text.AlignHCenter;
                         font.pixelSize: 12
                         text: "实时监控";
+                        color: indexPage==0 ? "#000" : "#8a8a8a";
                         MouseArea{
                             anchors.fill: parent;
                             onClicked: {
@@ -752,7 +772,7 @@ Window {
                 }
                 //设备效能
                 Item {
-                    width: (parent.width)/4;
+                    width: (parent.width)/5;
                     height: parent.height;
                     z: indexPage==1 ? 5:3;
                     Text{
@@ -761,6 +781,7 @@ Window {
                         horizontalAlignment: Text.AlignHCenter;
                         font.pixelSize: 12
                         text: "设备效能";
+                        color: indexPage==1 ? "#000" : "#8a8a8a";
                         MouseArea{
                             anchors.fill: parent;
                             onClicked: {
@@ -771,7 +792,7 @@ Window {
                 }
                 //异常加工
                 Item {
-                    width: (parent.width)/4;
+                    width: (parent.width)/5;
                     height: parent.height;
                     z: indexPage==2 ? 5:2;
 
@@ -781,6 +802,7 @@ Window {
                         horizontalAlignment: Text.AlignHCenter;
                         font.pixelSize: 12
                         text: "异常加工";
+                        color: indexPage==2 ? "#000" : "#8a8a8a";
                         MouseArea{
                             anchors.fill: parent;
                             onClicked: {
@@ -791,7 +813,7 @@ Window {
                 }
                 //员工绩效
                 Item {
-                    width: (parent.width)/4;
+                    width: (parent.width)/5;
                     height: parent.height;
                     z: indexPage==1 ? 5:3;
 
@@ -801,6 +823,28 @@ Window {
                         horizontalAlignment: Text.AlignHCenter;
                         font.pixelSize: 12
                         text: "员工绩效";
+                        color: indexPage==3 ? "#000" : "#8a8a8a";
+                        MouseArea{
+                            anchors.fill: parent;
+                            onClicked: {
+                                setCurrentFault(3);
+                            }
+                        }
+                    }
+                }
+                //我的
+                Item {
+                    width: (parent.width)/5;
+                    height: parent.height;
+                    z: indexPage==1 ? 5:3;
+
+                    Text{
+                        anchors.fill: parent;
+                        verticalAlignment: Text.AlignVCenter;
+                        horizontalAlignment: Text.AlignHCenter;
+                        font.pixelSize: 12
+                        text: "我的";
+                        color: indexPage==4 ? "#000" : "#8a8a8a";
                         MouseArea{
                             anchors.fill: parent;
                             onClicked: {
