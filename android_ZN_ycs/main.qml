@@ -79,10 +79,10 @@ Window {
     {
         id: tcpclient
         onDataComing: {
-//            var rate
-//            //text1.text += " \nip: " + ip + " \nport: " + port + " \ndata: " + data
-//            rate  =  data.split(",")
-//            rate1 = rate[0]
+            //            var rate
+            //            //text1.text += " \nip: " + ip + " \nport: " + port + " \ndata: " + data
+            //            rate  =  data.split(",")
+            //            rate1 = rate[0]
             rate1 = data[0]
             rate2 = data[1]
             value1 = data[5]
@@ -123,7 +123,6 @@ Window {
         height: win.height-224/screenRate;
         anchors.top: rect1_bgImg.bottom;
 
-
         //实时监控
         Rectangle {
             id: real_time;
@@ -134,7 +133,7 @@ Window {
             //height: parent.height
             visible: indexPage==0;
 
-            //开机比、上线天数、正常圆图
+            //开机比、上线天数
             Image{
                 id:background
                 width: win.width
@@ -166,7 +165,7 @@ Window {
                         id: time_text
                         color: "#fff"
                         text: "33"
-                        font.pointSize: 20/screenRate
+                        font.pointSize: 22/screenRate
                         anchors.topMargin: 240/screenRate
                         anchors.top: parent.top
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -174,6 +173,7 @@ Window {
                 }
             }
 
+            //时间
             Rectangle{
                 id: rect0_time
                 width: parent.width
@@ -189,10 +189,11 @@ Window {
                 }
             }
 
+            //通知报警
             Rectangle{
                 id: rect0_alart
                 width: parent.width
-                height: parent.height/20;
+                height: parent.height/30;
                 anchors.top: rect0_time.bottom;
                 color: "#fff"
                 Text {
@@ -211,40 +212,76 @@ Window {
                 // property var othersSlice: 0
                 id: rect2_state;
                 width: mainRow.width
-                height: parent.height*13/20
+                height: parent.height*15/30
                 color: "#fff";
                 //anchors.top : rect2_option.bottom
                 anchors.top : rect0_alart.bottom
-                Item{
-                    width:parent.width
-                    height: parent.height*1/6
-                    Row{
-                        width:parent.width
-                        height:parent.height
+                //Rectangle{
+                //width: parent.width
+                //height: parent.height * 4 / 15
+                Rectangle{
+                    width: parent.width
+                    height: parent.height * 2 /6
+                    color:"#000"
+//                    Row{
+//                        width:parent.width * 3 / 5
+//                        height:parent.height * 2 /6
+//                        Item{
+//                            width: parent.width/5
+//                            height: parent.height * 2 /6
+//                            Rectangle{
+//                                id: off_number
+//                                height: parent.height / 2
+//                                width : parent.width
+//                                color: "#fff"
+//                                Text{
+//                                    id: off_text
+//                                    anchors.centerIn: parent
+//                                    color: "#000"
+//                                    text: "2"
+//                                    font.pointSize: 12/screenRate
+//                                }
+//                            }
+//                            Rectangle{
+//                                id: off_rect
+//                                anchors.top : off_number.bottom
+//                                height: parent.height / 2
+//                                width: parent.width
+//                                color: stsColorArr[0]
+//                            }
+//                        }
+//                    }
+                }
+
+                Rectangle{
+                    width: parent.width
+                    height: parent.height * 4 / 6
+                    anchors.top : rect2_state.bottom
+                    ChartView {
+                        id: chart
+                        //title: "设备实时状态"
+                        height: parent.height
+                        anchors.fill: parent
+                        // 示例的位置
+                        legend.visible: false   // 是否显示
+                        //                legend.alignment: Qt.AlignLeft
+                        // 边缘更加圆滑
+                        antialiasing: true
+                        //titleFont : 12
+                        //color: "#8AB846"; borderColor: "#163430" ;
+                        PieSeries {
+                            id: pieSeries
+                            size: 0.7
+                            PieSlice { id: slice1; label: "运行"; value: value1; labelFont.pointSize: 11; color:stsColorArr[3]}
+                            PieSlice { id: slice2; label: "报警"; value: value5; labelFont.pointSize: 11; color:stsColorArr[4]}
+                            PieSlice { id: slice3; label: "离线"; value: value4; labelFont.pointSize: 11; color:stsColorArr[0]}
+                            PieSlice { id: slice4; label: "待机"; value: value2; labelFont.pointSize: 11; color:stsColorArr[1]}
+                            PieSlice { id: slice5; label: "怠速"; value: value3; labelFont.pointSize: 11; color:stsColorArr[2]}
+                        }
                     }
                 }
 
-                ChartView {
-                    id: chart
-                    //title: "设备实时状态"
-                    anchors.fill: parent
-                    // 示例的位置
-                   legend.visible: false   // 是否显示
-                    //                legend.alignment: Qt.AlignLeft
-                    // 边缘更加圆滑
-                    antialiasing: true
-                    //titleFont : 12
-                    //color: "#8AB846"; borderColor: "#163430" ;
-                    PieSeries {
-                        id: pieSeries
-                        size: 0.5
-                        PieSlice { id: slice1; label: "运行"; value: value1; labelFont.pointSize: 11; color:stsColorArr[3]}
-                        PieSlice { id: slice2; label: "报警"; value: value5; labelFont.pointSize: 11; color:stsColorArr[4]}
-                        PieSlice { id: slice3; label: "离线"; value: value4; labelFont.pointSize: 11; color:stsColorArr[0]}
-                        PieSlice { id: slice4; label: "待机"; value: value2; labelFont.pointSize: 11; color:stsColorArr[1]}
-                        PieSlice { id: slice5; label: "怠速"; value: value3; labelFont.pointSize: 11; color:stsColorArr[2]}
-                    }
-                }
+
 
                 Component.onCompleted: {
                     // 新增使用 append(name, value)，系统函数会自动根据值的大小重新计算比例，52/（52+20*5）
