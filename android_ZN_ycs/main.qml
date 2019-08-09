@@ -85,11 +85,78 @@ Window {
             //            rate1 = rate[0]
             rate1 = data[0]
             rate2 = data[1]
-            value1 = data[5]
-            value2 = data[3]
-            value3 = data[4]
-            value4 = data[2]
-            value5 = data[6]
+
+            value1 = data[2]  //全部离线数
+            value2 = data[3]　//全部待机数
+            value3 = data[4]　//全部怠速数
+            value4 = data[5]　//全部运行数
+            value5 = data[6]　//全部报警数
+
+            m1 = data[7]      //GSJ005全部设备数
+            m1_0 = data[8]　  //GSJ005离线数
+            m1_1 = data[9]　  //GSJ005待机数
+            m1_2 = data[10]　 //GSJ005怠速数
+            m1_3 = data[11]　 //GSJ005运行数
+            m1_4 = data[12]　 //GSJ005报警数
+
+            m2 = data[13]     //GSJ006全部设备数
+            m2_0 = data[14]　 //GSJ006离线数
+            m2_1 = data[15]　 //GSJ006待机数
+            m2_2 = data[16]　 //GSJ006怠速数
+            m2_3 = data[17]　 //GSJ006运行数
+            m2_4 = data[18]　 //GSJ006报警数
+
+            m3 = data[19]     //SKJ005全部设备数
+            m3_0 = data[20]　 //SKJ005离线数
+            m3_1 = data[21]　 //SKJ005待机数
+            m3_2 = data[22]　 //SKJ005怠速数
+            m3_3 = data[23]　 //SKJ005运行数
+            m3_4 = data[24]　 //SKJ005报警数
+
+            m4 = data[25]     //SKJ006全部设备数
+            m4_0 = data[26]　 //SKJ006离线数
+            m4_1 = data[27]　 //SKJ006待机数
+            m4_2 = data[28]　 //SKJ006怠速数
+            m4_3 = data[29]　 //SKJ006运行数
+            m4_4 = data[30]　 //SKJ006报警数
+
+            m5 = data[31]     //SKJ010全部设备数
+            m5_0 = data[32]　 //SKJ010离线数
+            m5_1 = data[33]　 //SKJ010待机数
+            m5_2 = data[34]　 //SKJ010怠速数
+            m5_3 = data[35]　 //SKJ010运行数
+            m5_4 = data[36]　 //SKJ010报警数
+
+            m6 = data[37]     //SKJ011全部设备数
+            m6_0 = data[38]　 //SKJ011离线数
+            m6_1 = data[39]　 //SKJ011待机数
+            m6_2 = data[40]　 //SKJ011怠速数
+            m6_3 = data[41]　 //SKJ011运行数
+            m6_4 = data[42]　 //SKJ011报警数
+
+            m7 = data[43]     //SKJ012全部设备数
+            m7_0 = data[44]　 //SKJ012离线数
+            m7_1 = data[45]　 //SKJ012待机数
+            m7_2 = data[46]　 //SKJ012怠速数
+            m7_3 = data[47]　 //SKJ012运行数
+            m7_4 = data[48]　 //SKJ012报警数
+
+            m8 = data[49]     //SKJ013全部设备数
+            m8_0 = data[50]　 //SKJ013离线数
+            m8_1 = data[51]　 //SKJ013待机数
+            m8_2 = data[52]　 //SKJ013怠速数
+            m8_3 = data[53]　 //SKJ013运行数
+            m8_4 = data[54]　 //SKJ013报警数
+
+            j = data[55]
+            setspeed_errRun = data[56]
+            setfeedrate_errRun = data[57]
+
+            for (i=0,k=58;i<j;i++){
+                sendArr[k++] = id_errRun[i]  //机器编号
+                sendArr[k++] = speed_errRun[i]　//该机器错误转速
+                sendArr[k++] = feedrate_errRun[i]　//该机器错误进给
+            }
         }
         onStatusReport: {
             //text1.text += "\nStatusReport:" + msg;
@@ -107,6 +174,7 @@ Window {
         anchors.margins: 10/screenRate;
         color: "#000080"
         Text {
+            id: title
             anchors.fill: parent;
             text:"模具工厂后台信息";
             horizontalAlignment: Text.AlignHCenter;
@@ -148,7 +216,7 @@ Window {
                     Text{
                         id: rate_text
                         color: "#fff"
-                        text: "1/2"
+                        text: rate1 + "/" + rate2
                         font.pointSize: 22/screenRate
                         anchors.topMargin: 240/screenRate
                         anchors.top: parent.top
@@ -242,7 +310,7 @@ Window {
                                     id: off_text
                                     anchors.centerIn: parent
                                     color: "#000"
-                                    text: "2"
+                                    text: value1
                                     font.pointSize: 20/screenRate
                                 }
                             }
@@ -275,7 +343,7 @@ Window {
                                     id: wait_text
                                     anchors.centerIn: parent
                                     color: "#000"
-                                    text: "2"
+                                    text: value2
                                     font.pointSize: 20/screenRate
                                 }
                             }
@@ -308,7 +376,7 @@ Window {
                                     id: idle_text
                                     anchors.centerIn: parent
                                     color: "#000"
-                                    text: "2"
+                                    text: value3
                                     font.pointSize: 20/screenRate
                                 }
                             }
@@ -341,7 +409,7 @@ Window {
                                     id: run_text
                                     anchors.centerIn: parent
                                     color: "#000"
-                                    text: "2"
+                                    text: value4
                                     font.pointSize: 20/screenRate
                                 }
                             }
@@ -374,7 +442,7 @@ Window {
                                     id: err_text
                                     anchors.centerIn: parent
                                     color: "#000"
-                                    text: "2"
+                                    text: value5
                                     font.pointSize: 20/screenRate
                                 }
                             }
@@ -418,9 +486,9 @@ Window {
                         PieSeries {
                             id: pieSeries
                             size: 0.7
-                            PieSlice { id: slice1; label: "运行"; value: value1; labelFont.pointSize: 11; color:stsColorArr[3]}
+                            PieSlice { id: slice1; label: "运行"; value: value4; labelFont.pointSize: 11; color:stsColorArr[3]}
                             PieSlice { id: slice2; label: "报警"; value: value5; labelFont.pointSize: 11; color:stsColorArr[4]}
-                            PieSlice { id: slice3; label: "离线"; value: value4; labelFont.pointSize: 11; color:stsColorArr[0]}
+                            PieSlice { id: slice3; label: "离线"; value: value1; labelFont.pointSize: 11; color:stsColorArr[0]}
                             PieSlice { id: slice4; label: "待机"; value: value2; labelFont.pointSize: 11; color:stsColorArr[1]}
                             PieSlice { id: slice5; label: "怠速"; value: value3; labelFont.pointSize: 11; color:stsColorArr[2]}
                         }
