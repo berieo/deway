@@ -991,19 +991,24 @@ Window {
                             }
                             else if(currentIndex == 1) {
                                 mcPage = 1;
+                                err_table.text = "异常待机次数"
+
                             }
                             else if(currentIndex == 2) {
                                 mcPage = 2;
+                                err_table.text = "异常报警次数"
                             }
                         }
                     }
                 }
+
                 Rectangle{
                     width: parent.width * 95 / 100
                     height: parent.height * 6/7
                     anchors.horizontalCenter: parent.horizontalCenter   //水平居中
                     //anchors.rightMargin: 20/screenRate
                     color:"#000070"
+                    //visible: mcPage == 0 ? true : false
                     Column {
                         anchors.margins: 1;
                         anchors.fill: parent;
@@ -1014,9 +1019,9 @@ Window {
                             height: 55/screenRate;
                             color: "#000070";
                             Row {
-//                                anchors.topMargin: -1;
-//                                anchors.leftMargin: -1;
-//                                anchors.rightMargin: -1;
+                                //                                anchors.topMargin: -1;
+                                //                                anchors.leftMargin: -1;
+                                //                                anchors.rightMargin: -1;
                                 width:parent.width
                                 height: parent.height
                                 spacing: 10/screenRate;
@@ -1053,6 +1058,7 @@ Window {
                                     width: parent.width * 2/5
                                     color: "#666666"
                                     Text {
+                                        id: err_table
                                         anchors.fill: parent;
                                         verticalAlignment: Text.AlignVCenter;
                                         horizontalAlignment: Text.AlignHCenter
@@ -1073,121 +1079,10 @@ Window {
                                 //anchors.fill: parent;
                                 color: "#dcdcdc"
                                 ListView {
-                                    id: listview_tool;
-                                    boundsBehavior: Flickable.StopAtBounds;
-                                    anchors.fill: parent;
-                                    delegate: delegate_tool;
-                                    model: ListModel { }
-                                    focus: true;
-                                    highlight: Rectangle{ color: "#8a8a8a"; }
-                                    section.criteria: ViewSection.FullString;
-                                    currentIndex: 0;
-                                    clip: true;
-                                    highlightMoveDuration: 200;
+
                                 }
                             }
-                            // ListView模型配置
-                            Component { id: delegate_tool;
-                                Item {
-                                    id: listviewMode; width: parent.width; height: 45;
-                                    MouseArea { anchors.fill: parent;
-                                        onClicked: listviewMode.ListView.view.currentIndex = index;
-                                    }
-                                    Row {
-                                        anchors.margins: 0;
-                                        anchors.fill: parent;
-                                        spacing: 1;
-                                        Text {
-                                            text: Rank;
-                                            clip: true;
-                                            height: parent.height;
-                                            width: (parent.width-5*parent.spacing)/6*0.7;
-                                            verticalAlignment: Text.AlignVCenter;
-                                            horizontalAlignment: Text.AlignHCenter
-                                            font.family: "Microsoft YaHei";
-                                            color: listviewMode.ListView.isCurrentItem ? "#ffffff" : "#000000";
-                                            font.pixelSize: 20;
-                                        }
-                                        Text {
-                                            text: Name;
-                                            clip: true;
-                                            height: parent.height;
-                                            width: (parent.width-5*parent.spacing)/6;
-                                            verticalAlignment: Text.AlignVCenter;
-                                            horizontalAlignment: Text.AlignHCenter
-                                            font.family: "Microsoft YaHei";
-                                            color: listviewMode.ListView.isCurrentItem ? "#ffffff" : "#000000";
-                                            font.pixelSize: 20;
-                                        }
-                                        Text {
-                                            text: Counts;
-                                            clip: true;
-                                            height: parent.height;
-                                            width: (parent.width-5*parent.spacing)/6*0.8;
-                                            verticalAlignment: Text.AlignVCenter;
-                                            horizontalAlignment: Text.AlignHCenter
-                                            font.family: "Microsoft YaHei";
-                                            color: listviewMode.ListView.isCurrentItem ? "#ffffff" : "#000000";
-                                            font.pixelSize: 20;
-                                        }
-                                        Text {
-                                            text: Total;
-                                            clip: true;
-                                            height: parent.height;
-                                            width: (parent.width-5*parent.spacing)/6*1.3;
-                                            verticalAlignment: Text.AlignVCenter;
-                                            horizontalAlignment: Text.AlignHCenter
-                                            font.family: "Microsoft YaHei";
-                                            color: listviewMode.ListView.isCurrentItem ? "#ffffff" : "#000000";
-                                            font.pixelSize: 20;
-                                        }
-                                        Text {
-                                            text: Average;
-                                            clip: true;
-                                            height: parent.height;
-                                            width: (parent.width-5*parent.spacing)/6*1.2;
-                                            verticalAlignment: Text.AlignVCenter;
-                                            horizontalAlignment: Text.AlignHCenter
-                                            font.family: "Microsoft YaHei";
-                                            color: listviewMode.ListView.isCurrentItem ? "#ffffff" : "#000000";
-                                            font.pixelSize: 20;
-                                        }
-                                        Item {
-                                            height: parent.height;
-                                            width: (parent.width-5*parent.spacing)/6;
-                                            Button {
-                                                text: Remarks;
-                                                enabled: listviewMode.ListView.isCurrentItem ? true : false;
-                                                clip: true;
-                                                anchors.margins: 5;
-                                                anchors.fill: parent;
-                                                font.family: "Microsoft YaHei";
-                                                font.pixelSize: 18;
-                                                onClicked: {
-                                                    // 切换页面
-                                                    chart22Mouse.enabled = true;
-                                                    chartView22.visible = true;
-                                                    // 赋值信息
-                                                    var listViewVal = listview_tool.model.get(listview_tool.currentIndex);
-                                                    chartView22.staffName = listViewVal.Name;
-                                                    chartView22.chartTitle = "[ "+chartView22.staffName+" ]换刀数据统计分析";
-                                                    chartView22.dataBuffer = staffTools[listViewVal.realIndex];
-                                                    // 画图
-                                                    series22.clear();
-                                                    var dataLen = chartView22.dataBuffer.length;
-                                                    axisX22.max = dataLen + 1;
-                                                    axisX22.tickCount = axisX22.max + 1;
-                                                    axisY22.min = 0;
-                                                    axisY22.max = 20;
-                                                    for(var i=0; i<dataLen; i++) {
-                                                        series22.append(i+1, Number((chartView22.dataBuffer[i][2]/60).toFixed(1)));
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+
                         }
                     }
                 }
@@ -1232,26 +1127,212 @@ Window {
                             else if(currentIndex == 2) {
                                 mcPage = 2;
                             }
-                            else if(currentIndex == 3) {
-                                mcPage = 3;
-                            }
-                            else if(currentIndex == 4) {
-                                mcPage = 4;
-                            }
-                            else if(currentIndex == 5) {
-                                mcPage = 5;
-                            }
-                            else if(currentIndex == 6) {
-                                mcPage = 6;
-                            }
-                            else if(currentIndex == 7) {
-                                mcPage = 7;
-                            }
                         }
                     }
                 }
+                //换刀数据统计
+                Rectangle{
+                    width: parent.width
+                    height: parent.height * 6/7
+                    anchors.horizontalCenter: parent.horizontalCenter   //水平居中
+                    //anchors.rightMargin: 20/screenRate
+                    color:"#000070"
+                    visible: mcPage == 0 ? true : false
+                    ChartView {
+                        //title: "Horizontal Bar series"
+                        anchors.fill: parent
+                        legend.alignment: Qt.AlignBottom
+                        antialiasing: true
+                        HorizontalBarSeries {
+                            axisY: BarCategoryAxis { categories: ["吴国兴","赵文峰", "王向前", "陈勇驰", "乔国才", "杨吉", "周定武"]}
+                            BarSet { label: "换刀"; values: [5, 2, 5, 6, 4, 3, 2, 2, ]; color: stsColorArr[1] }
+                            BarSet { label: "换料"; values: [8, 5, 3, 5, 2, 1, 4, 3]; color: stsColorArr[3] }
+                        }
+                    }
+                }
+                //换料数据统计
+                Rectangle{
+                    width: parent.width
+                    height: parent.height * 6/7
 
+                    //anchors.rightMargin: 20/screenRate
+                    color:"#000070"
+                    visible: mcPage == 1 ? true : false
+                    // 表头
+                    Rectangle {
+                        width: parent.width * 92 / 100;
+                        height: 55/screenRate;
+                        anchors.horizontalCenter: parent.horizontalCenter   //水平居中
+                        color: "#000070";
+                        Row {
+                            width:parent.width
+                            height: parent.height
+                            spacing: 10/screenRate;
+                            Rectangle {
+                                height: parent.height;
+                                width: parent.width * 1/6
+                                color: "#666666"
+                                Text {
+                                    anchors.fill: parent;
+                                    verticalAlignment: Text.AlignVCenter;
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "Microsoft YaHei";
+                                    color: "#ffffff";
+                                    font.pixelSize: 22/screenRate;
+                                    text: "序号";
+                                }
+                            }
+                            Rectangle {
+                                height: parent.height;
+                                width: parent.width * 1/6
+                                color: "#666666"
+                                Text {
+                                    anchors.fill: parent;
+                                    verticalAlignment: Text.AlignVCenter;
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "Microsoft YaHei";
+                                    color: "#ffffff";
+                                    font.pixelSize: 22/screenRate;
+                                    text: "姓名";
+                                }
+                            }
+                            Rectangle {
+                                height: parent.height;
+                                width: parent.width * 2/6
+                                color: "#666666"
+                                Text {
+                                    anchors.fill: parent;
+                                    verticalAlignment: Text.AlignVCenter;
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "Microsoft YaHei";
+                                    color: "#ffffff";
+                                    font.pixelSize: 22/screenRate;
+                                    text: "换料次数";
+                                }
+                            }
+                            Rectangle {
+                                height: parent.height;
+                                width: parent.width * 2/6
+                                color: "#666666"
+                                Text {
+                                    anchors.fill: parent;
+                                    verticalAlignment: Text.AlignVCenter;
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "Microsoft YaHei";
+                                    color: "#ffffff";
+                                    font.pixelSize: 22/screenRate;
+                                    text: "操作机器";
+                                }
+                            }
+                        }
+                    }
+                    // 报表
+                    Item {
+                        width: parent.width;
+                        height: parent.height - 55/screenRate
+                        Rectangle{
+                            //anchors.margins: 2;
+                            //anchors.fill: parent;
+                            color: "#dcdcdc"
+                            ListView {
 
+                            }
+                        }
+
+                    }
+                }
+                //加工实效统计
+                Rectangle{
+                    width: parent.width
+                    height: parent.height * 6/7
+                    anchors.horizontalCenter: parent.horizontalCenter   //水平居中
+                    //anchors.rightMargin: 20/screenRate
+                    color:"#000070"
+                    visible: mcPage == 2 ? true : false
+                    // 表头
+                    Rectangle {
+                        width: parent.width * 92 / 100;
+                        height: 55/screenRate;
+                        anchors.horizontalCenter: parent.horizontalCenter   //水平居中
+                        color: "#000070";
+                        Row {
+                            width:parent.width
+                            height: parent.height
+                            spacing: 10/screenRate;
+                            Rectangle {
+                                height: parent.height;
+                                width: parent.width * 1/6
+                                color: "#666666"
+                                Text {
+                                    anchors.fill: parent;
+                                    verticalAlignment: Text.AlignVCenter;
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "Microsoft YaHei";
+                                    color: "#ffffff";
+                                    font.pixelSize: 22/screenRate;
+                                    text: "序号";
+                                }
+                            }
+                            Rectangle {
+                                height: parent.height;
+                                width: parent.width * 1/6
+                                color: "#666666"
+                                Text {
+                                    anchors.fill: parent;
+                                    verticalAlignment: Text.AlignVCenter;
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "Microsoft YaHei";
+                                    color: "#ffffff";
+                                    font.pixelSize: 22/screenRate;
+                                    text: "姓名";
+                                }
+                            }
+                            Rectangle {
+                                height: parent.height;
+                                width: parent.width * 2/6
+                                color: "#666666"
+                                Text {
+                                    anchors.fill: parent;
+                                    verticalAlignment: Text.AlignVCenter;
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "Microsoft YaHei";
+                                    color: "#ffffff";
+                                    font.pixelSize: 22/screenRate;
+                                    text: "加工次数";
+                                }
+                            }
+                            Rectangle {
+                                height: parent.height;
+                                width: parent.width * 2/6
+                                color: "#666666"
+                                Text {
+                                    anchors.fill: parent;
+                                    verticalAlignment: Text.AlignVCenter;
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "Microsoft YaHei";
+                                    color: "#ffffff";
+                                    font.pixelSize: 22/screenRate;
+                                    text: "操作机器";
+                                }
+                            }
+                        }
+                    }
+                    // 报表
+                    Item {
+                        width: parent.width;
+                        height: parent.height - 55/screenRate
+                        Rectangle{
+                            //anchors.margins: 2;
+                            //anchors.fill: parent;
+                            color: "#dcdcdc"
+                            ListView {
+
+                            }
+                        }
+
+                    }
+
+                }
             }
         }
     }
