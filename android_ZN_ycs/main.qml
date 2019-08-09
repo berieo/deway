@@ -120,7 +120,7 @@ Window {
     Column {
         id: mainRow;
         width: win.width;
-        height: win.height-224/screenRate;
+        height: win.height-254/screenRate;
         anchors.top: rect1_bgImg.bottom;
 
         //实时监控
@@ -207,61 +207,207 @@ Window {
             }
 
             //设备实时状态，饼形图
-            Rectangle {
+            Column {
                 // anchors.fill: parent
                 // property var othersSlice: 0
                 id: rect2_state;
                 width: mainRow.width
                 height: parent.height*15/30
-                color: "#fff";
+                //color: "#fff";
                 //anchors.top : rect2_option.bottom
                 anchors.top : rect0_alart.bottom
                 //Rectangle{
                 //width: parent.width
                 //height: parent.height * 4 / 15
                 Rectangle{
-                    width: parent.width
-                    height: parent.height * 2 /6
-                    color:"#000"
-//                    Row{
-//                        width:parent.width * 3 / 5
-//                        height:parent.height * 2 /6
-//                        Item{
-//                            width: parent.width/5
-//                            height: parent.height * 2 /6
-//                            Rectangle{
-//                                id: off_number
-//                                height: parent.height / 2
-//                                width : parent.width
-//                                color: "#fff"
-//                                Text{
-//                                    id: off_text
-//                                    anchors.centerIn: parent
-//                                    color: "#000"
-//                                    text: "2"
-//                                    font.pointSize: 12/screenRate
-//                                }
-//                            }
-//                            Rectangle{
-//                                id: off_rect
-//                                anchors.top : off_number.bottom
-//                                height: parent.height / 2
-//                                width: parent.width
-//                                color: stsColorArr[0]
-//                            }
-//                        }
-//                    }
+                    width: parent.width * 18 / 30
+                    height: parent.height * 1 /6
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    color:"#fff"
+                    Row{
+                        width: parent.width
+                        height: parent.height
+                        spacing : 40/screenRate
+                        //离线标签
+                        Item{
+                            width: 100/screenRate
+                            height: parent.height
+                            anchors.bottom: parent.bottom
+                            Rectangle{
+                                id: off_number
+                                height: 50/screenRate
+                                width : parent.width
+                                color: "#fff"
+                                Text{
+                                    id: off_text
+                                    anchors.centerIn: parent
+                                    color: "#000"
+                                    text: "2"
+                                    font.pointSize: 20/screenRate
+                                }
+                            }
+                            Rectangle{
+                                id: off_rect
+                                anchors.top : off_number.bottom
+                                height: 50/screenRate
+                                width: parent.width
+                                color: stsColorArr[0]
+                                Text{
+                                    id: off_rectword
+                                    font.pointSize: 30/screenRate
+                                    anchors.centerIn: parent
+                                    text: "离线"
+                                    color: "#fff"
+                                }
+                            }
+                        }
+                        //待机标签
+                        Item{
+                            width: 100/screenRate
+                            height: parent.height
+                            anchors.bottom: parent.bottom
+                            Rectangle{
+                                id: wait_number
+                                height: 50/screenRate
+                                width : parent.width
+                                color: "#fff"
+                                Text{
+                                    id: wait_text
+                                    anchors.centerIn: parent
+                                    color: "#000"
+                                    text: "2"
+                                    font.pointSize: 20/screenRate
+                                }
+                            }
+                            Rectangle{
+                                id: wait_rect
+                                anchors.top : wait_number.bottom
+                                height: 50/screenRate
+                                width: parent.width
+                                color: stsColorArr[1]
+                                Text{
+                                    id: wait_rectword
+                                    font.pointSize: 30/screenRate
+                                    anchors.centerIn: parent
+                                    text: "待机"
+                                    color: "#fff"
+                                }
+                            }
+                        }
+                        //怠速标签
+                        Item{
+                            width: 100/screenRate
+                            height: parent.height
+                            anchors.bottom: parent.bottom
+                            Rectangle{
+                                id: idle_number
+                                height: 50/screenRate
+                                width : parent.width
+                                color: "#fff"
+                                Text{
+                                    id: idle_text
+                                    anchors.centerIn: parent
+                                    color: "#000"
+                                    text: "2"
+                                    font.pointSize: 20/screenRate
+                                }
+                            }
+                            Rectangle{
+                                id: idle_rect
+                                anchors.top : idle_number.bottom
+                                height: 50/screenRate
+                                width: parent.width
+                                color: stsColorArr[2]
+                                Text{
+                                    id: idle_rectword
+                                    font.pointSize: 30/screenRate
+                                    anchors.centerIn: parent
+                                    text: "怠速"
+                                    color: "#fff"
+                                }
+                            }
+                        }
+                        //运行标签
+                        Item{
+                            width: 100/screenRate
+                            height: parent.height
+                            anchors.bottom: parent.bottom
+                            Rectangle{
+                                id: run_number
+                                height: 50/screenRate
+                                width : parent.width
+                                color: "#fff"
+                                Text{
+                                    id: run_text
+                                    anchors.centerIn: parent
+                                    color: "#000"
+                                    text: "2"
+                                    font.pointSize: 20/screenRate
+                                }
+                            }
+                            Rectangle{
+                                id: run_rect
+                                anchors.top : run_number.bottom
+                                height: 50/screenRate
+                                width: parent.width
+                                color: stsColorArr[3]
+                                Text{
+                                    id: run_rectword
+                                    font.pointSize: 30/screenRate
+                                    anchors.centerIn: parent
+                                    text: "运行"
+                                    color: "#fff"
+                                }
+                            }
+                        }
+                        //报警标签
+                        Item{
+                            width: 100/screenRate
+                            height: parent.height
+                            anchors.bottom: parent.bottom
+                            Rectangle{
+                                id: err_number
+                                height: 50/screenRate
+                                width : parent.width
+                                color: "#fff"
+                                Text{
+                                    id: err_text
+                                    anchors.centerIn: parent
+                                    color: "#000"
+                                    text: "2"
+                                    font.pointSize: 20/screenRate
+                                }
+                            }
+                            Rectangle{
+                                id: err_rect
+                                anchors.top : err_number.bottom
+                                height: 50/screenRate
+                                width: parent.width
+                                color: stsColorArr[4]
+                                Text{
+                                    id: err_rectword
+                                    font.pointSize: 30/screenRate
+                                    anchors.centerIn: parent
+                                    text: "报警"
+                                    color: "#fff"
+                                }
+                            }
+                        }
+
+
+                    }
                 }
 
                 Rectangle{
                     width: parent.width
-                    height: parent.height * 4 / 6
-                    anchors.top : rect2_state.bottom
+                    height: parent.height * 5 / 6
+                    //anchors.top : rect2_state.bottom
                     ChartView {
                         id: chart
                         //title: "设备实时状态"
-                        height: parent.height
+                        //height: parent.height
                         anchors.fill: parent
+
                         // 示例的位置
                         legend.visible: false   // 是否显示
                         //                legend.alignment: Qt.AlignLeft
@@ -280,9 +426,6 @@ Window {
                         }
                     }
                 }
-
-
-
                 Component.onCompleted: {
                     // 新增使用 append(name, value)，系统函数会自动根据值的大小重新计算比例，52/（52+20*5）
                     //othersSlice = pieSeries.append("Others", 52.0);
@@ -306,7 +449,7 @@ Window {
             id: rect1_effort
             width: parent.width
             height : parent.height
-            color: "#0c1d3b"
+            color: "#000070"
             visible: indexPage==1;
             //选择栏
 
@@ -319,13 +462,13 @@ Window {
                     id: rect1_Box
                     width:parent.width
                     height: parent.height/7
-                    color: "#0c1d3b"
+                    color: "#000070"
                     ComboBox {
                         id: mc_box
                         width: 200
                         height: 100/screenRate
                         anchors.centerIn: parent
-                        model: [ "Bosen001", "Bosen002", "SKJ005", "SKJ006", "SKJ010", "SKJ011", "SKJ012", "SKJ013"]
+                        model: [ "GSJ005", "GSJ006", "SKJ005", "SKJ006", "SKJ010", "SKJ011", "SKJ012", "SKJ013"]
                         onCurrentIndexChanged: {
                             // 使用信号槽处理显示信息的变化情况
                             if(currentIndex == 0) {
@@ -356,12 +499,12 @@ Window {
                     }
                 }
 
-                //图表
+                //GSJ005
                 Rectangle {
-                    id: mc_chart;
                     width: parent.width;
                     height: parent.height * 6/7
-                    color: "#DBF1FF"
+                    color: "#000070"
+                    visible: mcPage == 0? true : false
                     ChartView {
                         anchors.fill: parent
                         theme: ChartView.ChartThemeQt
@@ -372,7 +515,7 @@ Window {
                             visible: false
                         }
                         PieSeries {
-                            id: pieSeries_mc
+                            id: pieSeries_mc0
                             size:0.6
                             holeSize: 0.35;
                             PieSlice {
@@ -413,7 +556,405 @@ Window {
                         }
                     }
                 }
-
+                //GSJ006
+                Rectangle {
+                    width: parent.width;
+                    height: parent.height * 6/7
+                    color: "#000070"
+                    visible: mcPage == 1? true : false
+                    ChartView {
+                        anchors.fill: parent
+                        theme: ChartView.ChartThemeQt
+                        antialiasing: true
+                        //legend.visible: false
+                        animationOptions: ChartView.AllAnimations
+                        legend{
+                            visible: false
+                        }
+                        PieSeries {
+                            id: pieSeries_mc1
+                            size:0.6
+                            holeSize: 0.35;
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#999999"
+                                label: qsTr("离线")
+                                labelVisible: true
+                                value: 20
+                            }
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#FF6600"
+                                label: qsTr("待机")
+                                labelVisible: true
+                                value: 20
+                            }
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#F1C40F"
+                                label: qsTr("怠速")
+                                labelVisible: true
+                                value: 20
+                            }
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#27AE60"
+                                label: qsTr("运行")
+                                labelVisible: true
+                                value: 20
+                            }
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#C0392B"
+                                label: qsTr("报警")
+                                labelVisible: true
+                                value: 20
+                            }
+                        }
+                    }
+                }
+                //SKJ005
+                Rectangle {
+                    width: parent.width;
+                    height: parent.height * 6/7
+                    color: "#000070"
+                    visible: mcPage == 2? true : false
+                    ChartView {
+                        anchors.fill: parent
+                        theme: ChartView.ChartThemeQt
+                        antialiasing: true
+                        //legend.visible: false
+                        animationOptions: ChartView.AllAnimations
+                        legend{
+                            visible: false
+                        }
+                        PieSeries {
+                            id: pieSeries_mc2
+                            size:0.6
+                            holeSize: 0.35;
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#999999"
+                                label: qsTr("离线")
+                                labelVisible: true
+                                value: 20
+                            }
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#FF6600"
+                                label: qsTr("待机")
+                                labelVisible: true
+                                value: 20
+                            }
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#F1C40F"
+                                label: qsTr("怠速")
+                                labelVisible: true
+                                value: 20
+                            }
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#27AE60"
+                                label: qsTr("运行")
+                                labelVisible: true
+                                value: 20
+                            }
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#C0392B"
+                                label: qsTr("报警")
+                                labelVisible: true
+                                value: 20
+                            }
+                        }
+                    }
+                }
+                //SKJ006
+                Rectangle {
+                    width: parent.width;
+                    height: parent.height * 6/7
+                    color: "#000070"
+                    visible: mcPage == 3? true : false
+                    ChartView {
+                        anchors.fill: parent
+                        theme: ChartView.ChartThemeQt
+                        antialiasing: true
+                        //legend.visible: false
+                        animationOptions: ChartView.AllAnimations
+                        legend{
+                            visible: false
+                        }
+                        PieSeries {
+                            id: pieSeries_mc3
+                            size:0.6
+                            holeSize: 0.35;
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#999999"
+                                label: qsTr("离线")
+                                labelVisible: true
+                                value: 20
+                            }
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#FF6600"
+                                label: qsTr("待机")
+                                labelVisible: true
+                                value: 20
+                            }
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#F1C40F"
+                                label: qsTr("怠速")
+                                labelVisible: true
+                                value: 20
+                            }
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#27AE60"
+                                label: qsTr("运行")
+                                labelVisible: true
+                                value: 20
+                            }
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#C0392B"
+                                label: qsTr("报警")
+                                labelVisible: true
+                                value: 20
+                            }
+                        }
+                    }
+                }
+                //SKJ010
+                Rectangle {
+                    width: parent.width;
+                    height: parent.height * 6/7
+                    color: "#000070"
+                    visible: mcPage == 4? true : false
+                    ChartView {
+                        anchors.fill: parent
+                        theme: ChartView.ChartThemeQt
+                        antialiasing: true
+                        //legend.visible: false
+                        animationOptions: ChartView.AllAnimations
+                        legend{
+                            visible: false
+                        }
+                        PieSeries {
+                            id: pieSeries_mc4
+                            size:0.6
+                            holeSize: 0.35;
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#999999"
+                                label: qsTr("离线")
+                                labelVisible: true
+                                value: 20
+                            }
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#FF6600"
+                                label: qsTr("待机")
+                                labelVisible: true
+                                value: 20
+                            }
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#F1C40F"
+                                label: qsTr("怠速")
+                                labelVisible: true
+                                value: 20
+                            }
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#27AE60"
+                                label: qsTr("运行")
+                                labelVisible: true
+                                value: 20
+                            }
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#C0392B"
+                                label: qsTr("报警")
+                                labelVisible: true
+                                value: 20
+                            }
+                        }
+                    }
+                }
+                //SKJ011
+                Rectangle {
+                    width: parent.width;
+                    height: parent.height * 6/7
+                    color: "#000070"
+                    visible: mcPage == 5? true : false
+                    ChartView {
+                        anchors.fill: parent
+                        theme: ChartView.ChartThemeQt
+                        antialiasing: true
+                        //legend.visible: false
+                        animationOptions: ChartView.AllAnimations
+                        legend{
+                            visible: false
+                        }
+                        PieSeries {
+                            id: pieSeries_mc5
+                            size:0.6
+                            holeSize: 0.35;
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#999999"
+                                label: qsTr("离线")
+                                labelVisible: true
+                                value: 20
+                            }
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#FF6600"
+                                label: qsTr("待机")
+                                labelVisible: true
+                                value: 20
+                            }
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#F1C40F"
+                                label: qsTr("怠速")
+                                labelVisible: true
+                                value: 20
+                            }
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#27AE60"
+                                label: qsTr("运行")
+                                labelVisible: true
+                                value: 20
+                            }
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#C0392B"
+                                label: qsTr("报警")
+                                labelVisible: true
+                                value: 20
+                            }
+                        }
+                    }
+                }
+                //SKJ012
+                Rectangle {
+                    width: parent.width;
+                    height: parent.height * 6/7
+                    color: "#000070"
+                    visible: mcPage == 6? true : false
+                    ChartView {
+                        anchors.fill: parent
+                        theme: ChartView.ChartThemeQt
+                        antialiasing: true
+                        //legend.visible: false
+                        animationOptions: ChartView.AllAnimations
+                        legend{
+                            visible: false
+                        }
+                        PieSeries {
+                            id: pieSeries_mc6
+                            size:0.6
+                            holeSize: 0.35;
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#999999"
+                                label: qsTr("离线")
+                                labelVisible: true
+                                value: 20
+                            }
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#FF6600"
+                                label: qsTr("待机")
+                                labelVisible: true
+                                value: 20
+                            }
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#F1C40F"
+                                label: qsTr("怠速")
+                                labelVisible: true
+                                value: 20
+                            }
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#27AE60"
+                                label: qsTr("运行")
+                                labelVisible: true
+                                value: 20
+                            }
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#C0392B"
+                                label: qsTr("报警")
+                                labelVisible: true
+                                value: 20
+                            }
+                        }
+                    }
+                }
+                //SKJ013
+                Rectangle {
+                    width: parent.width;
+                    height: parent.height * 6/7
+                    color: "#000070"
+                    visible: mcPage == 7? true : false
+                    ChartView {
+                        anchors.fill: parent
+                        theme: ChartView.ChartThemeQt
+                        antialiasing: true
+                        //legend.visible: false
+                        animationOptions: ChartView.AllAnimations
+                        legend{
+                            visible: false
+                        }
+                        PieSeries {
+                            id: pieSeries_mc7
+                            size:0.6
+                            holeSize: 0.35;
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#999999"
+                                label: qsTr("离线")
+                                labelVisible: true
+                                value: 20
+                            }
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#FF6600"
+                                label: qsTr("待机")
+                                labelVisible: true
+                                value: 20
+                            }
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#F1C40F"
+                                label: qsTr("怠速")
+                                labelVisible: true
+                                value: 20
+                            }
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#27AE60"
+                                label: qsTr("运行")
+                                labelVisible: true
+                                value: 20
+                            }
+                            PieSlice {
+                                borderColor: "#000"
+                                color: "#C0392B"
+                                label: qsTr("报警")
+                                labelVisible: true
+                                value: 20
+                            }
+                        }
+                    }
+                }
             }
 
         }
@@ -423,7 +964,7 @@ Window {
             id: rect2_err
             width: parent.width
             height : parent.height
-            color: "#0c1d3b"
+            color: "#000070"
             visible: indexPage==2;
             //选择栏
 
@@ -436,7 +977,7 @@ Window {
                     id: rect3_err
                     width:parent.width
                     height: parent.height * 1/7
-                    color: "#0c1d3b"
+                    color: "#000070"
                     ComboBox {
                         id: err_box
                         width: 200
@@ -454,82 +995,11 @@ Window {
                             else if(currentIndex == 2) {
                                 mcPage = 2;
                             }
-                            else if(currentIndex == 3) {
-                                mcPage = 3;
-                            }
-                            else if(currentIndex == 4) {
-                                mcPage = 4;
-                            }
-                            else if(currentIndex == 5) {
-                                mcPage = 5;
-                            }
-                            else if(currentIndex == 6) {
-                                mcPage = 6;
-                            }
-                            else if(currentIndex == 7) {
-                                mcPage = 7;
-                            }
                         }
                     }
                 }
 
-                //图表
-                Rectangle {
-                    id: err_chart;
-                    width: parent.width;
-                    height: parent.height * 6/7
-                    color: "#DBF1FF"
-                    ChartView {
-                        anchors.fill: parent
-                        theme: ChartView.ChartThemeQt
-                        antialiasing: true
-                        //legend.visible: false
-                        animationOptions: ChartView.AllAnimations
-                        legend{
-                            visible: false
-                        }
-                        PieSeries {
-                            id: pieSeries_err
-                            size:0.6
-                            holeSize: 0.35;
-                            PieSlice {
-                                borderColor: "#000"
-                                color: "#999999"
-                                label: qsTr("离线")
-                                labelVisible: true
-                                value: 20
-                            }
-                            PieSlice {
-                                borderColor: "#000"
-                                color: "#FF6600"
-                                label: qsTr("待机")
-                                labelVisible: true
-                                value: 20
-                            }
-                            PieSlice {
-                                borderColor: "#000"
-                                color: "#F1C40F"
-                                label: qsTr("怠速")
-                                labelVisible: true
-                                value: 20
-                            }
-                            PieSlice {
-                                borderColor: "#000"
-                                color: "#27AE60"
-                                label: qsTr("运行")
-                                labelVisible: true
-                                value: 20
-                            }
-                            PieSlice {
-                                borderColor: "#000"
-                                color: "#C0392B"
-                                label: qsTr("报警")
-                                labelVisible: true
-                                value: 20
-                            }
-                        }
-                    }
-                }
+
             }
         }
 
@@ -588,63 +1058,7 @@ Window {
                     }
                 }
 
-                //图表
-                Rectangle {
-                    id: effort_chart;
-                    width: parent.width;
-                    height: parent.height * 6/7
-                    color: "#DBF1FF"
-                    ChartView {
-                        anchors.fill: parent
-                        theme: ChartView.ChartThemeQt
-                        antialiasing: true
-                        //legend.visible: false
-                        animationOptions: ChartView.AllAnimations
-                        legend{
-                            visible: false
-                        }
-                        PieSeries {
-                            id: pieSeries_effort
-                            size:0.6
-                            holeSize: 0.35;
-                            PieSlice {
-                                borderColor: "#000"
-                                color: "#999999"
-                                label: qsTr("离线")
-                                labelVisible: true
-                                value: 20
-                            }
-                            PieSlice {
-                                borderColor: "#000"
-                                color: "#FF6600"
-                                label: qsTr("待机")
-                                labelVisible: true
-                                value: 20
-                            }
-                            PieSlice {
-                                borderColor: "#000"
-                                color: "#F1C40F"
-                                label: qsTr("怠速")
-                                labelVisible: true
-                                value: 20
-                            }
-                            PieSlice {
-                                borderColor: "#000"
-                                color: "#27AE60"
-                                label: qsTr("运行")
-                                labelVisible: true
-                                value: 20
-                            }
-                            PieSlice {
-                                borderColor: "#000"
-                                color: "#C0392B"
-                                label: qsTr("报警")
-                                labelVisible: true
-                                value: 20
-                            }
-                        }
-                    }
-                }
+
             }
         }
     }
@@ -902,163 +1316,5 @@ Window {
         selectItem.anchors.leftMargin = selectItem.width*index;
     }
 
-    function isIp(ip)
-    {
-        var ip_array = ip.text.split(".");
-        if(ip_array[0]>255||ip_array[0]<1){
-            return false;
-        } else if(ip_array[1]>255||ip_array[1]<0){
-            return false;
-        } else if(ip_array[2]>255||ip_array[2]<0){
-            return false;
-        } else if(ip_array[3]>255||ip_array[3]<1){
-            return false;
-        } else {
-            return true;
-        }
-        return false;
-    }
-
-    function setup()
-    {
-        //label1.text = "names: " + ntcip.getItemNames().length
-        //return;
-
-        if(button2.version === "version3")
-        {
-            //if(ntcip.initNTCIPCenter("unsecure", "version1", "169.254.39.166", "6699") === 1)
-
-            /*if(ntcip.initNTCIPCenter("md5des", "version3",
-                                     "169.254.39.166", "6699" , "MD5DES",
-                                     "12345678", "12345678",
-                                     "MD5", "DES") === 1)
-
-            if(ntcip.initNTCIPCenter("md5des", "version3",
-                                     "192.168.5.100", "6699" , "MD5DES",
-                                     "12345678", "12345678",
-                                     "MD5", "DES") === 1)
-
-                //securemodel = "md5des", version = "version3"
-            if(ntcip.initNTCIPCenter("md5des", "version3",
-                                     localip1.text, "6699" , "MD5DES",
-                                     "12345678", "12345678",
-                                     "MD5", "DES") === 1)
-
-                //ip = "169.254.39.166", port = "6699"
-                //username = "MD5DES", authpassword = "12345678"
-                //encryptpassword = "12345678", auth method = "MD5"
-                //encry method = "DES"
-            {
-                label1.text = "Initializatin ok" + "\r\n"
-                button2.enabled = 1
-            }
-            else
-            {
-
-                label1.text = "Initializatin failure" + "\r\n"
-            }
-            label1.text += "iface: " + ntcip.getNetworkInterfaces() + "\r\n"
-        }
-        else
-            label1.text = "ret: " + ntcip.initNTCIPCenter(version, 4700);
-        //label1.text = "init ok";
-
-            if(ntcip1.initNTCIPCenter("md5des", "version3",
-                                     "192.168.5.28", "6699" , "MD5DES",
-                                     "12345678", "12345678",
-                                     "MD5", "DES") === 1)
-
-                //ip = "169.254.39.166", port = "6699"
-                //username = "MD5DES", authpassword = "12345678"
-                //encryptpassword = "12345678", auth method = "MD5"
-                //encry method = "DES"
-            {
-                label1.text = "Initializatin ok" + "\r\n"
-                button2.enabled = 1
-            }
-            else
-            {
-
-                label1.text = "Initializatin failure" + "\r\n"
-            }*/
-
-            if(ntcip.addNTCIPCenter("md5des", "version3",
-                                    targetip.text, "6699" , "MD5DES",
-                                    "12345678", "12345678",
-                                    "MD5", "DES") === 0)
-
-                //ip = "169.254.39.166", port = "6699"
-                //username = "MD5DES", authpassword = "12345678"
-                //encryptpassword = "12345678", auth method = "MD5"
-                //encry method = "DES"
-            {
-                //label1.text = "Initializatin ok" + "\r\n"
-                button2.enabled = 1
-                flag=true
-            }
-            else
-            {
-                //label1.text = "Initializatin failure" + "\r\n"
-                flag=false
-            }
-            //label1.text += "iface: " + ntcip.getNetworkInterfaces() + "\r\n"
-        }
-        else
-            //label1.text = "ret: " + ntcip.initNTCIPCenter(version, 4700);
-            //label1.text = "init ok";
-            //return;
-            if(ntcip.addNTCIPCenter("md5des", "version3",
-                                    localip.text, "6699" , "MD5DES",
-                                    "12345678", "12345678",
-                                    "MD5", "DES") === 0)
-
-                //ip = "169.254.39.166", port = "6699"
-                //username = "MD5DES", authpassword = "12345678"
-                //encryptpassword = "12345678", auth method = "MD5"
-                //encry method = "DES"
-            {
-                //label1.text = "Initializatin ok" + "\r\n"
-                button2.enabled = 1
-            }
-            else
-            {
-                //label1.text = "Initializatin failure" + "\r\n"
-            }
-        //label1.text = "list: " + ntcip.getCenterIPs()
-
-    }
-
-    function call(index)
-    {
-        /* win.indexVal = parseInt((index10.currentIndex - 1) * 10 + (index0.currentIndex - 1))
-        //indexVal = ((index10.currentIndex - 1) * 10 + (index0.currentIndex - 1))
-        //win.indexVal = win.indexVal + 1*/
-        var v;
-
-        //v = ntcip.set_multi("192.168.5.99:6699", "dmsMessageBeacon", win.indexVal)
-        //v = ntcip.set_multi("192.168.5.99", "dmsMessageBeacon", win.indexVal)
-
-        v = ntcip.set_multi(targetip.text, "dmsMessageBeacon", index)
-        return;
-
-        //        if(cmdselect.currentText === "Switch Pic")
-        //            v = ntcip.set("dmsMessageBeacon", win.indexVal, "192.168.5.99:6699")
-        //        else
-        //            v = ntcip.set("dmsResetMessage", win.indexVal)
-        //label1.text += "result: " + v + "\r\n";
-        //label1.text += "ntext: " + parseInt((index10.currentIndex - 1) * 10 + (index0.currentIndex - 1)) + "\r\n"
-
-    }
-    function  dateDiff(sDate1,  sDate2){    //sDate1和sDate2是xxxx-xx-xx格式
-        var  aDate1, aDate2, oDate1,  oDate2
-        aDate1  =  sDate1.split("-")
-        //oDate1  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0])    //转换为xx-xx-xxxx格式
-        aDate2  =  sDate2.split("-")
-        //oDate2  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0])
-        //win.idays  =  parseInt(Math.abs(oDate1  -  oDate2)/1000/60/60/24)    //把相差的毫秒数转换为天数
-        win.idays = (aDate1[0] - aDate2[0]) * 365 + (aDate1[1] - aDate2[1]) * 30 + (aDate1[2] - aDate2[2])
-        //要改进
-
-    }
 }
 
