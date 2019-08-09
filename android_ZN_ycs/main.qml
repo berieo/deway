@@ -19,7 +19,7 @@ Window {
     height: 640
 
     property var stsColorArr: ["#A9A9A9", "#FFC125", "#EEEE00", "#43CD80", "#EE3B3B"]    // 对应设备的离线、待机、怠速、运行、报警5个状态
-
+    property var mcName: ["GSJ005", "GSJ006", "SKJ005", "SKJ006", "SKJ010", "SKJ011", "SKJ012", "SKJ013"]
     property int indexPage: 0;    // 故障代码生成器的页面状态值，确定当前所在的页面
     property int mcPage: 0;
     property string tabSel: "content/tab_selected.png"
@@ -83,6 +83,10 @@ Window {
     property int m8_2: 2
     property int m8_3: 2
     property int m8_4: 4
+
+    property int j: 0
+    property int setspeed_errRun: 0
+    property int setfeedrate_errRun: 0
 
     // 屏幕适配标志位
     property real screenRate: (1080/win.width).toFixed(3);
@@ -200,11 +204,15 @@ Window {
             setspeed_errRun = data[56]
             setfeedrate_errRun = data[57]
 
-            for (i=0,k=58;i<j;i++){
-                sendArr[k++] = id_errRun[i]  //机器编号
-                sendArr[k++] = speed_errRun[i]　//该机器错误转速
-                sendArr[k++] = feedrate_errRun[i]　//该机器错误进给
-            }
+//            for (i=0,k=58;i<j;i++){
+//                sendArr[k++] = id_errRun[i]  //机器编号
+//                sendArr[k++] = speed_errRun[i]　//该机器错误转速
+//                sendArr[k++] = feedrate_errRun[i]　//该机器错误进给
+//            }
+//            for (i=0,k=11;i<8;i++){
+//                runmodel.append({"number":i,"name":mcName[i],"account":data[k]})
+//                k += 6
+//            }
         }
         onStatusReport: {
             //text1.text += "\nStatusReport:" + msg;
@@ -212,6 +220,7 @@ Window {
     }
     Component.onCompleted: {
         tcpclient.connectToHost(target_ip, target_port, 0);
+
     }
 
     // 设置title
@@ -1135,9 +1144,6 @@ Window {
                             height: 55/screenRate;
                             color: "#000070";
                             Row {
-                                //                                anchors.topMargin: -1;
-                                //                                anchors.leftMargin: -1;
-                                //                                anchors.rightMargin: -1;
                                 width:parent.width
                                 height: parent.height
                                 spacing: 10/screenRate;
@@ -1186,16 +1192,17 @@ Window {
                                 }
                             }
                         }
-                        // 报表
+                        //异常运行次数报表
                         Item {
                             width: parent.width;
                             height: parent.height - 55/screenRate
+                            visible: mcPage == 0  ? true : false
                             Rectangle {
-                                 width: parent.width;
-                                 height: parent.height
-                                 color:"#000070"
+                                width: parent.width;
+                                height: parent.height
+                                color:"#000070"
                                 ListModel {
-                                    id: errModel
+                                    id: runModel
                                     property string language: "en"
                                     ListElement {
                                         number: 1
@@ -1211,43 +1218,179 @@ Window {
                                         number: 3
                                         name: "SKJ005"
                                         account: 5
+                                    }
+                                }
 
+                                Component {
+                                    id: runDelegate
+                                    Row {
+                                        id: run
+                                        width:parent.width
+                                        height: 100/screenRate
+                                        spacing: 10/screenRate;
+                                        Rectangle{
+                                            width: parent.width * 1 / 5
+                                            height: parent.height
+                                            Text {
+                                                text: "     " + number;
+                                            }
+                                        }
+                                        Rectangle{
+                                            width: parent.width * 2 / 5
+                                            height: parent.height
+                                            Text {
+                                                text: "        " + name
+                                            }
+                                        }
+                                        Rectangle{
+                                            width: parent.width * 2 / 5
+                                            height: parent.height
+                                            Text {
+                                                text: "            " + account
+                                            }
+                                        }
+                                    }
+                                }
+
+                                ListView {
+                                    property color run_color: "green"
+                                    model: runModel
+                                    delegate: runDelegate
+                                    anchors.fill: parent
+
+                                }
+                            }
+
+                        }
+                        //异常待机次数报表
+                        Item {
+                            width: parent.width;
+                            height: parent.height - 55/screenRate
+                            visible: mcPage == 1 ? true : false
+                            Rectangle {
+                                width: parent.width;
+                                height: parent.height
+                                color:"#000070"
+                                ListModel {
+                                    id: waitModel
+                                    property string language: "en"
+                                    ListElement {
+                                        number: 1
+                                        name: "GSJ005"
+                                        account: 3
+                                    }
+                                    ListElement {
+                                        number: 2
+                                        name: "GSJ006"
+                                        account: 4
+                                    }
+                                    ListElement {
+                                        number: 3
+                                        name: "SKJ005"
+                                        account: 5
+                                    }
+                                }
+
+                                Component {
+                                    id: waitDelegate
+                                    Row {
+                                        id: wait
+                                        width:parent.width
+                                        height: 100/screenRate
+                                        spacing: 10/screenRate;
+                                        Rectangle{
+                                            width: parent.width * 1 / 5
+                                            height: parent.height
+                                            Text {
+                                                text: "     " + number;
+                                            }
+                                        }
+                                        Rectangle{
+                                            width: parent.width * 2 / 5
+                                            height: parent.height
+                                            Text {
+                                                text: "        " + name
+                                            }
+                                        }
+                                        Rectangle{
+                                            width: parent.width * 2 / 5
+                                            height: parent.height
+                                            Text {
+                                                text: "            " + account
+                                            }
+                                        }
+                                    }
+                                }
+                                ListView {
+                                    model: waitModel
+                                    delegate: waitDelegate
+                                    anchors.fill: parent
+
+                                }
+                            }
+
+                        }
+                        //异常报警次数报表
+                        Item {
+                            width: parent.width;
+                            height: parent.height - 55/screenRate
+                            visible: mcPage == 2 ? true : false
+                            Rectangle {
+                                width: parent.width;
+                                height: parent.height
+                                color:"#000070"
+
+                                ListModel {
+                                    id: errModel
+                                    ListElement {
+                                        number: 1
+                                        name: "GSJ005"
+                                        account: 3
+                                    }
+                                    ListElement {
+                                        number: 2
+                                        name: "GSJ006"
+                                        account: 4
+                                    }
+                                    ListElement {
+                                        number: 3
+                                        name: "SKJ005"
+                                        account: 5
                                     }
                                 }
 
                                 Component {
                                     id: errDelegate
                                     Row {
-                                            id: err
-                                            width:parent.width
-                                            height: 100/screenRate
-                                            spacing: 10/screenRate;
-                                            Rectangle{
-                                                 width: parent.width * 1 / 5
-                                                 height: parent.height
-                                                 Text {
-                                                     text: "     " + number;
-                                                 }
+                                        id: err
+                                        width:parent.width
+                                        height: 100/screenRate
+                                        spacing: 10/screenRate;
+                                        Rectangle{
+                                            width: parent.width * 1 / 5
+                                            height: parent.height
+                                            Text {
+                                                text: "     " + number;
                                             }
-                                            Rectangle{
-                                                 width: parent.width * 2 / 5
-                                                 height: parent.height
-                                                  Text {
-                                                      text: "        " + name
-                                                  }
+                                        }
+                                        Rectangle{
+                                            width: parent.width * 2 / 5
+                                            height: parent.height
+                                            Text {
+                                                text: "        " + name
                                             }
-                                            Rectangle{
-                                                 width: parent.width * 2 / 5
-                                                 height: parent.height
-                                                   Text {
-                                                       text: "            " + account
-                                                   }
+                                        }
+                                        Rectangle{
+                                            width: parent.width * 2 / 5
+                                            height: parent.height
+                                            Text {
+                                                text: "            " + account
                                             }
+                                        }
                                     }
                                 }
 
                                 ListView {
-                                    property color err_color: "green"
                                     model: errModel
                                     delegate: errDelegate
                                     anchors.fill: parent
