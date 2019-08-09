@@ -998,6 +998,199 @@ Window {
                         }
                     }
                 }
+                Rectangle{
+                    width: parent.width * 95 / 100
+                    height: parent.height * 6/7
+                    anchors.horizontalCenter: parent.horizontalCenter   //水平居中
+                    //anchors.rightMargin: 20/screenRate
+                    color:"#000070"
+                    Column {
+                        anchors.margins: 1;
+                        anchors.fill: parent;
+                        spacing: 0;
+                        // 表头
+                        Rectangle {
+                            width: parent.width;
+                            height: 55/screenRate;
+                            color: "#000070";
+                            Row {
+//                                anchors.topMargin: -1;
+//                                anchors.leftMargin: -1;
+//                                anchors.rightMargin: -1;
+                                width:parent.width
+                                height: parent.height
+                                spacing: 10/screenRate;
+                                Rectangle {
+                                    height: parent.height;
+                                    width: parent.width * 1/5
+                                    color: "#666666"
+                                    Text {
+                                        anchors.fill: parent;
+                                        verticalAlignment: Text.AlignVCenter;
+                                        horizontalAlignment: Text.AlignHCenter
+                                        font.family: "Microsoft YaHei";
+                                        color: "#ffffff";
+                                        font.pixelSize: 22/screenRate;
+                                        text: "序号";
+                                    }
+                                }
+                                Rectangle {
+                                    height: parent.height;
+                                    width: parent.width * 2/5
+                                    color: "#666666"
+                                    Text {
+                                        anchors.fill: parent;
+                                        verticalAlignment: Text.AlignVCenter;
+                                        horizontalAlignment: Text.AlignHCenter
+                                        font.family: "Microsoft YaHei";
+                                        color: "#ffffff";
+                                        font.pixelSize: 22/screenRate;
+                                        text: "设备名";
+                                    }
+                                }
+                                Rectangle {
+                                    height: parent.height;
+                                    width: parent.width * 2/5
+                                    color: "#666666"
+                                    Text {
+                                        anchors.fill: parent;
+                                        verticalAlignment: Text.AlignVCenter;
+                                        horizontalAlignment: Text.AlignHCenter
+                                        font.family: "Microsoft YaHei";
+                                        color: "#ffffff";
+                                        font.pixelSize: 22/screenRate;
+                                        text: "异常运行次数";
+                                    }
+                                }
+                            }
+                        }
+                        // 报表
+                        Item {
+                            width: parent.width;
+                            height: parent.height - 55/screenRate
+                            Rectangle{
+                                //anchors.margins: 2;
+                                //anchors.fill: parent;
+                                color: "#dcdcdc"
+                                ListView {
+                                    id: listview_tool;
+                                    boundsBehavior: Flickable.StopAtBounds;
+                                    anchors.fill: parent;
+                                    delegate: delegate_tool;
+                                    model: ListModel { }
+                                    focus: true;
+                                    highlight: Rectangle{ color: "#8a8a8a"; }
+                                    section.criteria: ViewSection.FullString;
+                                    currentIndex: 0;
+                                    clip: true;
+                                    highlightMoveDuration: 200;
+                                }
+                            }
+                            // ListView模型配置
+                            Component { id: delegate_tool;
+                                Item {
+                                    id: listviewMode; width: parent.width; height: 45;
+                                    MouseArea { anchors.fill: parent;
+                                        onClicked: listviewMode.ListView.view.currentIndex = index;
+                                    }
+                                    Row {
+                                        anchors.margins: 0;
+                                        anchors.fill: parent;
+                                        spacing: 1;
+                                        Text {
+                                            text: Rank;
+                                            clip: true;
+                                            height: parent.height;
+                                            width: (parent.width-5*parent.spacing)/6*0.7;
+                                            verticalAlignment: Text.AlignVCenter;
+                                            horizontalAlignment: Text.AlignHCenter
+                                            font.family: "Microsoft YaHei";
+                                            color: listviewMode.ListView.isCurrentItem ? "#ffffff" : "#000000";
+                                            font.pixelSize: 20;
+                                        }
+                                        Text {
+                                            text: Name;
+                                            clip: true;
+                                            height: parent.height;
+                                            width: (parent.width-5*parent.spacing)/6;
+                                            verticalAlignment: Text.AlignVCenter;
+                                            horizontalAlignment: Text.AlignHCenter
+                                            font.family: "Microsoft YaHei";
+                                            color: listviewMode.ListView.isCurrentItem ? "#ffffff" : "#000000";
+                                            font.pixelSize: 20;
+                                        }
+                                        Text {
+                                            text: Counts;
+                                            clip: true;
+                                            height: parent.height;
+                                            width: (parent.width-5*parent.spacing)/6*0.8;
+                                            verticalAlignment: Text.AlignVCenter;
+                                            horizontalAlignment: Text.AlignHCenter
+                                            font.family: "Microsoft YaHei";
+                                            color: listviewMode.ListView.isCurrentItem ? "#ffffff" : "#000000";
+                                            font.pixelSize: 20;
+                                        }
+                                        Text {
+                                            text: Total;
+                                            clip: true;
+                                            height: parent.height;
+                                            width: (parent.width-5*parent.spacing)/6*1.3;
+                                            verticalAlignment: Text.AlignVCenter;
+                                            horizontalAlignment: Text.AlignHCenter
+                                            font.family: "Microsoft YaHei";
+                                            color: listviewMode.ListView.isCurrentItem ? "#ffffff" : "#000000";
+                                            font.pixelSize: 20;
+                                        }
+                                        Text {
+                                            text: Average;
+                                            clip: true;
+                                            height: parent.height;
+                                            width: (parent.width-5*parent.spacing)/6*1.2;
+                                            verticalAlignment: Text.AlignVCenter;
+                                            horizontalAlignment: Text.AlignHCenter
+                                            font.family: "Microsoft YaHei";
+                                            color: listviewMode.ListView.isCurrentItem ? "#ffffff" : "#000000";
+                                            font.pixelSize: 20;
+                                        }
+                                        Item {
+                                            height: parent.height;
+                                            width: (parent.width-5*parent.spacing)/6;
+                                            Button {
+                                                text: Remarks;
+                                                enabled: listviewMode.ListView.isCurrentItem ? true : false;
+                                                clip: true;
+                                                anchors.margins: 5;
+                                                anchors.fill: parent;
+                                                font.family: "Microsoft YaHei";
+                                                font.pixelSize: 18;
+                                                onClicked: {
+                                                    // 切换页面
+                                                    chart22Mouse.enabled = true;
+                                                    chartView22.visible = true;
+                                                    // 赋值信息
+                                                    var listViewVal = listview_tool.model.get(listview_tool.currentIndex);
+                                                    chartView22.staffName = listViewVal.Name;
+                                                    chartView22.chartTitle = "[ "+chartView22.staffName+" ]换刀数据统计分析";
+                                                    chartView22.dataBuffer = staffTools[listViewVal.realIndex];
+                                                    // 画图
+                                                    series22.clear();
+                                                    var dataLen = chartView22.dataBuffer.length;
+                                                    axisX22.max = dataLen + 1;
+                                                    axisX22.tickCount = axisX22.max + 1;
+                                                    axisY22.min = 0;
+                                                    axisY22.max = 20;
+                                                    for(var i=0; i<dataLen; i++) {
+                                                        series22.append(i+1, Number((chartView22.dataBuffer[i][2]/60).toFixed(1)));
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
 
 
             }
@@ -1008,7 +1201,7 @@ Window {
             id: rect3_effort
             width: parent.width
             height : parent.height
-            color: "#0c1d3b"
+            color: "#000070"
             visible: indexPage==3;
             //选择栏
 
@@ -1021,7 +1214,7 @@ Window {
                     id: rect4_effort
                     width:parent.width
                     height: parent.height * 1/7
-                    color: "#0c1d3b"
+                    color: "#000070"
                     ComboBox {
                         id: effort_box
                         width: 200
