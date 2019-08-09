@@ -36,6 +36,54 @@ Window {
     property int value4: 2   //离线
     property int value5: 1   //报警
 
+    property int m1_0: 4
+    property int m1_1: 2
+    property int m1_2: 3
+    property int m1_3: 2
+    property int m1_4: 1
+
+    property int m2_0: 1
+    property int m2_1: 3
+    property int m2_2: 2
+    property int m2_3: 4
+    property int m2_4: 2
+
+    property int m3_0: 3
+    property int m3_1: 1
+    property int m3_2: 2
+    property int m3_3: 3
+    property int m3_4: 1
+
+    property int m4_0: 3
+    property int m4_1: 4
+    property int m4_2: 2
+    property int m4_3: 2
+    property int m4_4: 1
+
+    property int m5_0: 1
+    property int m5_1: 2
+    property int m5_2: 2
+    property int m5_3: 3
+    property int m5_4: 4
+
+    property int m6_0: 1
+    property int m6_1: 4
+    property int m6_2: 2
+    property int m6_3: 3
+    property int m6_4: 2
+
+    property int m7_0: 4
+    property int m7_1: 3
+    property int m7_2: 2
+    property int m7_3: 2
+    property int m7_4: 1
+
+    property int m8_0: 3
+    property int m8_1: 1
+    property int m8_2: 2
+    property int m8_3: 2
+    property int m8_4: 4
+
     // 屏幕适配标志位
     property real screenRate: (1080/win.width).toFixed(3);
     property var faultPageSts: 0
@@ -591,35 +639,35 @@ Window {
                                 color: "#999999"
                                 label: qsTr("离线")
                                 labelVisible: true
-                                value: 20
+                                value: m1_0
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#FF6600"
                                 label: qsTr("待机")
                                 labelVisible: true
-                                value: 20
+                                value: m1_1
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#F1C40F"
                                 label: qsTr("怠速")
                                 labelVisible: true
-                                value: 20
+                                value: m1_2
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#27AE60"
                                 label: qsTr("运行")
                                 labelVisible: true
-                                value: 20
+                                value: m1_3
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#C0392B"
                                 label: qsTr("报警")
                                 labelVisible: true
-                                value: 20
+                                value: m1_4
                             }
                         }
                     }
@@ -648,35 +696,35 @@ Window {
                                 color: "#999999"
                                 label: qsTr("离线")
                                 labelVisible: true
-                                value: 20
+                                value: m2_0
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#FF6600"
                                 label: qsTr("待机")
                                 labelVisible: true
-                                value: 20
+                                value: m2_1
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#F1C40F"
                                 label: qsTr("怠速")
                                 labelVisible: true
-                                value: 20
+                                value: m2_2
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#27AE60"
                                 label: qsTr("运行")
                                 labelVisible: true
-                                value: 20
+                                value: m2_3
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#C0392B"
                                 label: qsTr("报警")
                                 labelVisible: true
-                                value: 20
+                                value: m2_4
                             }
                         }
                     }
@@ -705,35 +753,35 @@ Window {
                                 color: "#999999"
                                 label: qsTr("离线")
                                 labelVisible: true
-                                value: 20
+                                value: m3_0
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#FF6600"
                                 label: qsTr("待机")
                                 labelVisible: true
-                                value: 20
+                                value: m3_1
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#F1C40F"
                                 label: qsTr("怠速")
                                 labelVisible: true
-                                value: 20
+                                value: m3_2
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#27AE60"
                                 label: qsTr("运行")
                                 labelVisible: true
-                                value: 20
+                                value: m3_3
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#C0392B"
                                 label: qsTr("报警")
                                 labelVisible: true
-                                value: 20
+                                value: m3_4
                             }
                         }
                     }
@@ -762,35 +810,35 @@ Window {
                                 color: "#999999"
                                 label: qsTr("离线")
                                 labelVisible: true
-                                value: 20
+                                value: m4_0
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#FF6600"
                                 label: qsTr("待机")
                                 labelVisible: true
-                                value: 20
+                                value: m4_1
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#F1C40F"
                                 label: qsTr("怠速")
                                 labelVisible: true
-                                value: 20
+                                value: m4_2
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#27AE60"
                                 label: qsTr("运行")
                                 labelVisible: true
-                                value: 20
+                                value: m4_3
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#C0392B"
                                 label: qsTr("报警")
                                 labelVisible: true
-                                value: 20
+                                value: m4_4
                             }
                         }
                     }
@@ -819,35 +867,35 @@ Window {
                                 color: "#999999"
                                 label: qsTr("离线")
                                 labelVisible: true
-                                value: 20
+                                value: m5_0
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#FF6600"
                                 label: qsTr("待机")
                                 labelVisible: true
-                                value: 20
+                                value: m5_1
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#F1C40F"
                                 label: qsTr("怠速")
                                 labelVisible: true
-                                value: 20
+                                value: m5_2
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#27AE60"
                                 label: qsTr("运行")
                                 labelVisible: true
-                                value: 20
+                                value: m5_3
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#C0392B"
                                 label: qsTr("报警")
                                 labelVisible: true
-                                value: 20
+                                value: m5_4
                             }
                         }
                     }
@@ -876,35 +924,35 @@ Window {
                                 color: "#999999"
                                 label: qsTr("离线")
                                 labelVisible: true
-                                value: 20
+                                value: m6_0
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#FF6600"
                                 label: qsTr("待机")
                                 labelVisible: true
-                                value: 20
+                                value: m6_1
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#F1C40F"
                                 label: qsTr("怠速")
                                 labelVisible: true
-                                value: 20
+                                value: m6_2
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#27AE60"
                                 label: qsTr("运行")
                                 labelVisible: true
-                                value: 20
+                                value: m6_3
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#C0392B"
                                 label: qsTr("报警")
                                 labelVisible: true
-                                value: 20
+                                value: m6_4
                             }
                         }
                     }
@@ -933,35 +981,35 @@ Window {
                                 color: "#999999"
                                 label: qsTr("离线")
                                 labelVisible: true
-                                value: 20
+                                value: m7_0
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#FF6600"
                                 label: qsTr("待机")
                                 labelVisible: true
-                                value: 20
+                                value: m7_1
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#F1C40F"
                                 label: qsTr("怠速")
                                 labelVisible: true
-                                value: 20
+                                value: m7_2
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#27AE60"
                                 label: qsTr("运行")
                                 labelVisible: true
-                                value: 20
+                                value: m7_3
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#C0392B"
                                 label: qsTr("报警")
                                 labelVisible: true
-                                value: 20
+                                value: m7_4
                             }
                         }
                     }
@@ -990,35 +1038,35 @@ Window {
                                 color: "#999999"
                                 label: qsTr("离线")
                                 labelVisible: true
-                                value: 20
+                                value: m8_0
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#FF6600"
                                 label: qsTr("待机")
                                 labelVisible: true
-                                value: 20
+                                value: m8_1
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#F1C40F"
                                 label: qsTr("怠速")
                                 labelVisible: true
-                                value: 20
+                                value: m8_2
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#27AE60"
                                 label: qsTr("运行")
                                 labelVisible: true
-                                value: 20
+                                value: m8_3
                             }
                             PieSlice {
                                 borderColor: "#000"
                                 color: "#C0392B"
                                 label: qsTr("报警")
                                 labelVisible: true
-                                value: 20
+                                value: m8_4
                             }
                         }
                     }
@@ -1142,11 +1190,67 @@ Window {
                         Item {
                             width: parent.width;
                             height: parent.height - 55/screenRate
-                            Rectangle{
-                                //anchors.margins: 2;
-                                //anchors.fill: parent;
-                                color: "#dcdcdc"
+                            Rectangle {
+                                 width: parent.width;
+                                 height: parent.height
+                                 color:"#000070"
+                                ListModel {
+                                    id: errModel
+                                    property string language: "en"
+                                    ListElement {
+                                        number: 1
+                                        name: "GSJ005"
+                                        account: 3
+                                    }
+                                    ListElement {
+                                        number: 2
+                                        name: "GSJ006"
+                                        account: 4
+                                    }
+                                    ListElement {
+                                        number: 3
+                                        name: "SKJ005"
+                                        account: 5
+
+                                    }
+                                }
+
+                                Component {
+                                    id: errDelegate
+                                    Row {
+                                            id: err
+                                            width:parent.width
+                                            height: 100/screenRate
+                                            spacing: 10/screenRate;
+                                            Rectangle{
+                                                 width: parent.width * 1 / 5
+                                                 height: parent.height
+                                                 Text {
+                                                     text: "     " + number;
+                                                 }
+                                            }
+                                            Rectangle{
+                                                 width: parent.width * 2 / 5
+                                                 height: parent.height
+                                                  Text {
+                                                      text: "        " + name
+                                                  }
+                                            }
+                                            Rectangle{
+                                                 width: parent.width * 2 / 5
+                                                 height: parent.height
+                                                   Text {
+                                                       text: "            " + account
+                                                   }
+                                            }
+                                    }
+                                }
+
                                 ListView {
+                                    property color err_color: "green"
+                                    model: errModel
+                                    delegate: errDelegate
+                                    anchors.fill: parent
 
                                 }
                             }
