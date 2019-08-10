@@ -38,10 +38,10 @@ Window {
     property var rate2: 2
 
     //设备状态图,各种设备运行、待机、怠速、离线、报警数据
-    property int value1: 4   //运行总数
+    property int value1: 2   //离线总数
     property int value2: 2   //待机总数
     property int value3: 3   //怠速总数
-    property int value4: 2   //离线总数
+    property int value4: 4   //运行总数
     property int value5: 1   //报警总数
 
     property int m1: 12
@@ -203,6 +203,7 @@ Window {
                 speed_errRun[i] = data[k++]     //机器错误转速
                 feedrate_errRun[i] = data[k++]  //机器错误进给
             }
+
             //异常加工页面数据设定，异常运行为运行数，异常待机为待机数，异常报警为报警数
             //异常运行、异常待机待更改
             for (i=0,k=11;i<8;i++){
@@ -359,7 +360,7 @@ Window {
                                     anchors.centerIn: parent
                                     color: "#000"
                                     text: value1
-                                    font.pointSize: 20/screenRate
+                                    font.pointSize: 15/screenRate
                                 }
                             }
                             Rectangle{
@@ -370,10 +371,11 @@ Window {
                                 color: stsColorArr[0]
                                 Text{
                                     id: off_rectword
-                                    font.pointSize: 30/screenRate
+                                    font.pointSize: 14/screenRate
                                     anchors.centerIn: parent
                                     text: "离线"
                                     color: "#fff"
+
                                 }
                             }
                         }
@@ -392,7 +394,7 @@ Window {
                                     anchors.centerIn: parent
                                     color: "#000"
                                     text: value2
-                                    font.pointSize: 20/screenRate
+                                    font.pointSize: 15/screenRate
                                 }
                             }
                             Rectangle{
@@ -403,7 +405,7 @@ Window {
                                 color: stsColorArr[1]
                                 Text{
                                     id: wait_rectword
-                                    font.pointSize: 30/screenRate
+                                    font.pointSize: 14/screenRate
                                     anchors.centerIn: parent
                                     text: "待机"
                                     color: "#fff"
@@ -425,7 +427,7 @@ Window {
                                     anchors.centerIn: parent
                                     color: "#000"
                                     text: value3
-                                    font.pointSize: 20/screenRate
+                                    font.pointSize: 15/screenRate
                                 }
                             }
                             Rectangle{
@@ -436,7 +438,7 @@ Window {
                                 color: stsColorArr[2]
                                 Text{
                                     id: idle_rectword
-                                    font.pointSize: 30/screenRate
+                                    font.pointSize: 14/screenRate
                                     anchors.centerIn: parent
                                     text: "怠速"
                                     color: "#fff"
@@ -458,7 +460,7 @@ Window {
                                     anchors.centerIn: parent
                                     color: "#000"
                                     text: value4
-                                    font.pointSize: 20/screenRate
+                                    font.pointSize: 15/screenRate
                                 }
                             }
                             Rectangle{
@@ -469,7 +471,7 @@ Window {
                                 color: stsColorArr[3]
                                 Text{
                                     id: run_rectword
-                                    font.pointSize: 30/screenRate
+                                    font.pointSize: 14/screenRate
                                     anchors.centerIn: parent
                                     text: "运行"
                                     color: "#fff"
@@ -491,7 +493,7 @@ Window {
                                     anchors.centerIn: parent
                                     color: "#000"
                                     text: value5
-                                    font.pointSize: 20/screenRate
+                                    font.pointSize: 15/screenRate
                                 }
                             }
                             Rectangle{
@@ -502,7 +504,7 @@ Window {
                                 color: stsColorArr[4]
                                 Text{
                                     id: err_rectword
-                                    font.pointSize: 30/screenRate
+                                    font.pointSize: 14/screenRate
                                     anchors.centerIn: parent
                                     text: "报警"
                                     color: "#fff"
@@ -511,7 +513,6 @@ Window {
                         }
                     }
                 }
-
                 Rectangle{
                     width: parent.width
                     height: parent.height * 5 / 6
@@ -522,7 +523,7 @@ Window {
                         antialiasing: true
                         PieSeries {
                             id: pieSeries
-                            size: 0.7
+                            size: 1.0
                             PieSlice { id: slice1; label: "运行"; value: value4; labelFont.pointSize: 11; color:stsColorArr[3]}
                             PieSlice { id: slice2; label: "报警"; value: value5; labelFont.pointSize: 11; color:stsColorArr[4]}
                             PieSlice { id: slice3; label: "离线"; value: value1; labelFont.pointSize: 11; color:stsColorArr[0]}
@@ -569,7 +570,7 @@ Window {
                     color: "#000070"
                     ComboBox {
                         id: mc_box
-                        width: 200
+                        width: 450/screenRate
                         height: 100/screenRate
                         anchors.centerIn: parent
                         model: [ "GSJ005", "GSJ006", "SKJ005", "SKJ006", "SKJ010", "SKJ011", "SKJ012", "SKJ013"]
@@ -1076,7 +1077,7 @@ Window {
                     color: "#000070"
                     ComboBox {
                         id: err_box
-                        width: 200
+                        width: 450/screenRate
                         height: 100/screenRate
                         anchors.centerIn: parent
                         model: [ "异常运行", "异常待机", "异常报警"]
@@ -1112,7 +1113,7 @@ Window {
                         // 表头
                         Rectangle {
                             width: parent.width;
-                            height: 55/screenRate;
+                            height: 90/screenRate;
                             color: "#000070";
                             Row {
                                 width:parent.width
@@ -1128,7 +1129,7 @@ Window {
                                         horizontalAlignment: Text.AlignHCenter
                                         font.family: "Microsoft YaHei";
                                         color: "#ffffff";
-                                        font.pixelSize: 22/screenRate;
+                                        font.pixelSize: 35/screenRate;
                                         text: "序号";
                                     }
                                 }
@@ -1142,7 +1143,7 @@ Window {
                                         horizontalAlignment: Text.AlignHCenter
                                         font.family: "Microsoft YaHei";
                                         color: "#ffffff";
-                                        font.pixelSize: 22/screenRate;
+                                        font.pixelSize: 35/screenRate;
                                         text: "设备名";
                                     }
                                 }
@@ -1157,7 +1158,7 @@ Window {
                                         horizontalAlignment: Text.AlignHCenter
                                         font.family: "Microsoft YaHei";
                                         color: "#ffffff";
-                                        font.pixelSize: 22/screenRate;
+                                        font.pixelSize: 35/screenRate;
                                         text: "异常运行次数";
                                     }
                                 }
@@ -1166,7 +1167,7 @@ Window {
                         //异常运行次数报表
                         Item {
                             width: parent.width;
-                            height: parent.height - 55/screenRate
+                            height: parent.height - 90/screenRate
                             visible: mcPage == 0  ? true : false
                             Rectangle {
                                 width: parent.width;
@@ -1174,22 +1175,11 @@ Window {
                                 color:"#000070"
                                 ListModel {
                                     id: runModel
-                                    property string language: "en"
-                                    //                                    ListElement {
-                                    //                                        number: 1
-                                    //                                        name: "GSJ005"
-                                    //                                        account: 3
-                                    //                                    }
-                                    //                                    ListElement {
-                                    //                                        number: 2
-                                    //                                        name: "GSJ006"
-                                    //                                        account: 4
-                                    //                                    }
-                                    //                                    ListElement {
-                                    //                                        number: 3
-                                    //                                        name: "SKJ005"
-                                    //                                        account: 5
-                                    //                                    }
+//                                    ListElement {
+//                                        number: 1
+//                                        name: "GSJ005"
+//                                        account: 3
+//                                    }
                                 }
 
                                 Component {
@@ -1236,7 +1226,7 @@ Window {
                         //异常待机次数报表
                         Item {
                             width: parent.width;
-                            height: parent.height - 55/screenRate
+                            height: parent.height - 90/screenRate
                             visible: mcPage == 1 ? true : false
                             Rectangle {
                                 width: parent.width;
@@ -1294,7 +1284,7 @@ Window {
                         //异常报警次数报表
                         Item {
                             width: parent.width;
-                            height: parent.height - 55/screenRate
+                            height: parent.height - 90/screenRate
                             visible: mcPage == 2 ? true : false
                             Rectangle {
                                 width: parent.width;
@@ -1373,7 +1363,7 @@ Window {
                     color: "#000070"
                     ComboBox {
                         id: effort_box
-                        width: 200
+                        width: 450/screenRate
                         height: 100/screenRate
                         anchors.centerIn: parent
                         model: [ "换刀数据统计","换料数据统计","加工实效统计"]
@@ -1421,7 +1411,7 @@ Window {
                     // 表头
                     Rectangle {
                         width: parent.width * 92 / 100;
-                        height: 55/screenRate;
+                        height: 90/screenRate;
                         anchors.horizontalCenter: parent.horizontalCenter   //水平居中
                         color: "#000070";
                         Row {
@@ -1438,7 +1428,7 @@ Window {
                                     horizontalAlignment: Text.AlignHCenter
                                     font.family: "Microsoft YaHei";
                                     color: "#ffffff";
-                                    font.pixelSize: 22/screenRate;
+                                    font.pixelSize: 32/screenRate;
                                     text: "序号";
                                 }
                             }
@@ -1452,7 +1442,7 @@ Window {
                                     horizontalAlignment: Text.AlignHCenter
                                     font.family: "Microsoft YaHei";
                                     color: "#ffffff";
-                                    font.pixelSize: 22/screenRate;
+                                    font.pixelSize: 32/screenRate;
                                     text: "姓名";
                                 }
                             }
@@ -1466,7 +1456,7 @@ Window {
                                     horizontalAlignment: Text.AlignHCenter
                                     font.family: "Microsoft YaHei";
                                     color: "#ffffff";
-                                    font.pixelSize: 22/screenRate;
+                                    font.pixelSize: 32/screenRate;
                                     text: "换料次数";
                                 }
                             }
@@ -1480,7 +1470,7 @@ Window {
                                     horizontalAlignment: Text.AlignHCenter
                                     font.family: "Microsoft YaHei";
                                     color: "#ffffff";
-                                    font.pixelSize: 22/screenRate;
+                                    font.pixelSize: 32/screenRate;
                                     text: "操作机器";
                                 }
                             }
@@ -1489,7 +1479,7 @@ Window {
                     // 报表
                     Item {
                         width: parent.width;
-                        height: parent.height - 55/screenRate
+                        height: parent.height - 70/screenRate
                         Rectangle{
                             //anchors.margins: 2;
                             //anchors.fill: parent;
@@ -1499,8 +1489,7 @@ Window {
                             }
                         }
 
-                    }
-                }
+                    }                }
                 //加工实效统计
                 Rectangle{
                     width: parent.width
@@ -1511,7 +1500,7 @@ Window {
                     // 表头
                     Rectangle {
                         width: parent.width * 92 / 100;
-                        height: 55/screenRate;
+                        height: 90/screenRate;
                         anchors.horizontalCenter: parent.horizontalCenter   //水平居中
                         color: "#000070";
                         Row {
@@ -1528,7 +1517,7 @@ Window {
                                     horizontalAlignment: Text.AlignHCenter
                                     font.family: "Microsoft YaHei";
                                     color: "#ffffff";
-                                    font.pixelSize: 22/screenRate;
+                                    font.pixelSize: 32/screenRate;
                                     text: "序号";
                                 }
                             }
@@ -1542,7 +1531,7 @@ Window {
                                     horizontalAlignment: Text.AlignHCenter
                                     font.family: "Microsoft YaHei";
                                     color: "#ffffff";
-                                    font.pixelSize: 22/screenRate;
+                                    font.pixelSize: 32/screenRate;
                                     text: "姓名";
                                 }
                             }
@@ -1556,7 +1545,7 @@ Window {
                                     horizontalAlignment: Text.AlignHCenter
                                     font.family: "Microsoft YaHei";
                                     color: "#ffffff";
-                                    font.pixelSize: 22/screenRate;
+                                    font.pixelSize: 32/screenRate;
                                     text: "加工次数";
                                 }
                             }
@@ -1570,7 +1559,7 @@ Window {
                                     horizontalAlignment: Text.AlignHCenter
                                     font.family: "Microsoft YaHei";
                                     color: "#ffffff";
-                                    font.pixelSize: 22/screenRate;
+                                    font.pixelSize: 32/screenRate;
                                     text: "操作机器";
                                 }
                             }
