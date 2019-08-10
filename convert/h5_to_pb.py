@@ -4,8 +4,8 @@ import os
 import os.path as osp
 from keras import backend as K
 #路径参数
-input_path = '/home/ubuntu/convert/full_CNN_model'
-weight_file = 'full_CNN_model.h5'
+input_path = '/home/ubuntu/convert/steering_angle_model'
+weight_file = '2016-06-08--11-46-01.h5'
 weight_file_path = osp.join(input_path,weight_file)
 output_graph_name = weight_file[:-3] + '.pb'
 #转换函数

@@ -3,7 +3,7 @@ tflite_convert \
 --graph_def_file=20180408-102900.pb \
 --input_arrays=batch_size \
 --output_arrays=embeddings \
---input_shapes=1,224,224,3  \
+--input_shapes=1,224,224,3  
  
 
 使用上述命令，input_arrays和output_arrays可以通过github同样路径下的getname来获得

@@ -1,0 +1,7 @@
+#普通转换
+$ python3 ./mo.py --input_model ./model/frozen_graph.pb --input_shape [1,28,28,1]
+
+# 把fp32模型量化为fp16，模型大小减小一半
+python3 ./mo.py --input_model ./model/frozen_graph.pb --input_shape [1,28,28,1] --data_type FP16
+
+mo.py文件在/home/ubuntu/dldt/model-optimizer路径下
