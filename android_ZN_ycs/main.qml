@@ -25,6 +25,9 @@ Window {
     property string tabSel: "content/tab_selected.png"
     property string tabSeless: "content/tab.png"
 
+    //计数器
+    property int i: 0
+    property int k: 0
     //开机比
     property var rate1: 1
     property var rate2: 2
@@ -36,48 +39,56 @@ Window {
     property int value4: 2   //离线
     property int value5: 1   //报警
 
+    property int m1: 12
     property int m1_0: 4
     property int m1_1: 2
     property int m1_2: 3
     property int m1_3: 2
     property int m1_4: 1
 
+    property int m2: 12
     property int m2_0: 1
     property int m2_1: 3
     property int m2_2: 2
     property int m2_3: 4
     property int m2_4: 2
 
+    property int m3: 12
     property int m3_0: 3
     property int m3_1: 1
     property int m3_2: 2
-    property int m3_3: 3
+    property int m3_3: 4
     property int m3_4: 1
 
+    property int m4: 12
     property int m4_0: 3
     property int m4_1: 4
     property int m4_2: 2
     property int m4_3: 2
     property int m4_4: 1
 
+    property int m5: 12
     property int m5_0: 1
     property int m5_1: 2
     property int m5_2: 2
     property int m5_3: 3
     property int m5_4: 4
 
+    property int m6: 12
     property int m6_0: 1
     property int m6_1: 4
     property int m6_2: 2
     property int m6_3: 3
     property int m6_4: 2
 
+    property int m7: 12
     property int m7_0: 4
     property int m7_1: 3
     property int m7_2: 2
     property int m7_3: 2
     property int m7_4: 1
 
+    property int m8: 12
     property int m8_0: 3
     property int m8_1: 1
     property int m8_2: 2
@@ -108,33 +119,13 @@ Window {
     property string date1: "2019-07-01"
     property string date2: Qt.formatDateTime(new Date(),"yyyy-MM-dd")
     property int idays : 0
-    //    Timer{
-    //        id : diffday;
-    //        repeat:false;
-    //        onTriggered: {
-    //            diffday.stop();
-    //            dateDiff(sDate1,sDate2);
-    //        }
-    //    }
 
-    //        Timer
-    //        {
-    //            id: timer
-    //            onTriggered:
-    //            {
-    //                image2.x = image2.x + 1
-    //                //timer.start(200)
-    //            }
-    //        }
 
     TcpClient
     {
         id: tcpclient
         onDataComing: {
-            //            var rate
-            //            //text1.text += " \nip: " + ip + " \nport: " + port + " \ndata: " + data
-            //            rate  =  data.split(",")
-            //            rate1 = rate[0]
+            //text1.text += " \nip: " + ip + " \nport: " + port + " \ndata: " + data
             rate1 = data[0]
             rate2 = data[1]
 
@@ -204,15 +195,17 @@ Window {
             setspeed_errRun = data[56]
             setfeedrate_errRun = data[57]
 
-//            for (i=0,k=58;i<j;i++){
-//                sendArr[k++] = id_errRun[i]  //机器编号
-//                sendArr[k++] = speed_errRun[i]　//该机器错误转速
-//                sendArr[k++] = feedrate_errRun[i]　//该机器错误进给
-//            }
-//            for (i=0,k=11;i<8;i++){
-//                runmodel.append({"number":i,"name":mcName[i],"account":data[k]})
-//                k += 6
-//            }
+            //            for (i=0,k=58;i<j;i++){
+            //                sendArr[k++] = id_errRun[i]  //机器编号
+            //                sendArr[k++] = speed_errRun[i]　//该机器错误转速
+            //                sendArr[k++] = feedrate_errRun[i]　//该机器错误进给
+            //            }
+            for (i=0,k=11;i<8;i++){
+                runView.model.append({"number":i,"name":mcName[i],"account":data[k]})
+                waitView.model.append({"number":i,"name":mcName[i],"account":data[k-2]})
+                errView.model.append({"number":i,"name":mcName[i],"account":data[k+1]})
+                k += 6
+            }
         }
         onStatusReport: {
             //text1.text += "\nStatusReport:" + msg;
@@ -341,9 +334,7 @@ Window {
                 //color: "#fff";
                 //anchors.top : rect2_option.bottom
                 anchors.top : rect0_alart.bottom
-                //Rectangle{
-                //width: parent.width
-                //height: parent.height * 4 / 15
+                //标签
                 Rectangle{
                     width: parent.width * 18 / 30
                     height: parent.height * 1 /6
@@ -529,15 +520,14 @@ Window {
                     //anchors.top : rect2_state.bottom
                     ChartView {
                         id: chart
+                        anchors.fill: parent
+                        legend.visible: false   // 是否显示
+                        antialiasing: true
                         //title: "设备实时状态"
                         //height: parent.height
-                        anchors.fill: parent
-
                         // 示例的位置
-                        legend.visible: false   // 是否显示
                         //                legend.alignment: Qt.AlignLeft
                         // 边缘更加圆滑
-                        antialiasing: true
                         //titleFont : 12
                         //color: "#8AB846"; borderColor: "#163430" ;
                         PieSeries {
@@ -748,7 +738,6 @@ Window {
                         anchors.fill: parent
                         theme: ChartView.ChartThemeQt
                         antialiasing: true
-                        //legend.visible: false
                         animationOptions: ChartView.AllAnimations
                         legend{
                             visible: false
@@ -805,7 +794,6 @@ Window {
                         anchors.fill: parent
                         theme: ChartView.ChartThemeQt
                         antialiasing: true
-                        //legend.visible: false
                         animationOptions: ChartView.AllAnimations
                         legend{
                             visible: false
@@ -862,7 +850,6 @@ Window {
                         anchors.fill: parent
                         theme: ChartView.ChartThemeQt
                         antialiasing: true
-                        //legend.visible: false
                         animationOptions: ChartView.AllAnimations
                         legend{
                             visible: false
@@ -1113,6 +1100,7 @@ Window {
                             // 使用信号槽处理显示信息的变化情况
                             if(currentIndex == 0) {
                                 mcPage = 0;
+                                err_table.text = "异常运行次数"
                             }
                             else if(currentIndex == 1) {
                                 mcPage = 1;
@@ -1131,7 +1119,6 @@ Window {
                     width: parent.width * 95 / 100
                     height: parent.height * 6/7
                     anchors.horizontalCenter: parent.horizontalCenter   //水平居中
-                    //anchors.rightMargin: 20/screenRate
                     color:"#000070"
                     //visible: mcPage == 0 ? true : false
                     Column {
@@ -1204,21 +1191,21 @@ Window {
                                 ListModel {
                                     id: runModel
                                     property string language: "en"
-                                    ListElement {
-                                        number: 1
-                                        name: "GSJ005"
-                                        account: 3
-                                    }
-                                    ListElement {
-                                        number: 2
-                                        name: "GSJ006"
-                                        account: 4
-                                    }
-                                    ListElement {
-                                        number: 3
-                                        name: "SKJ005"
-                                        account: 5
-                                    }
+//                                    ListElement {
+//                                        number: 1
+//                                        name: "GSJ005"
+//                                        account: 3
+//                                    }
+//                                    ListElement {
+//                                        number: 2
+//                                        name: "GSJ006"
+//                                        account: 4
+//                                    }
+//                                    ListElement {
+//                                        number: 3
+//                                        name: "SKJ005"
+//                                        account: 5
+//                                    }
                                 }
 
                                 Component {
@@ -1253,11 +1240,11 @@ Window {
                                 }
 
                                 ListView {
+                                    id:runView
                                     property color run_color: "green"
                                     model: runModel
                                     delegate: runDelegate
                                     anchors.fill: parent
-
                                 }
                             }
 
@@ -1273,22 +1260,11 @@ Window {
                                 color:"#000070"
                                 ListModel {
                                     id: waitModel
-                                    property string language: "en"
-                                    ListElement {
-                                        number: 1
-                                        name: "GSJ005"
-                                        account: 3
-                                    }
-                                    ListElement {
-                                        number: 2
-                                        name: "GSJ006"
-                                        account: 4
-                                    }
-                                    ListElement {
-                                        number: 3
-                                        name: "SKJ005"
-                                        account: 5
-                                    }
+//                                    ListElement {
+//                                        number: 1
+//                                        name: "GSJ005"
+//                                        account: 3
+//                                    }
                                 }
 
                                 Component {
@@ -1322,6 +1298,7 @@ Window {
                                     }
                                 }
                                 ListView {
+                                    id: waitView
                                     model: waitModel
                                     delegate: waitDelegate
                                     anchors.fill: parent
@@ -1339,26 +1316,14 @@ Window {
                                 width: parent.width;
                                 height: parent.height
                                 color:"#000070"
-
                                 ListModel {
                                     id: errModel
-                                    ListElement {
-                                        number: 1
-                                        name: "GSJ005"
-                                        account: 3
-                                    }
-                                    ListElement {
-                                        number: 2
-                                        name: "GSJ006"
-                                        account: 4
-                                    }
-                                    ListElement {
-                                        number: 3
-                                        name: "SKJ005"
-                                        account: 5
-                                    }
+//                                    ListElement {
+//                                        number: 1
+//                                        name: "GSJ005"
+//                                        account: 3
+//                                    }
                                 }
-
                                 Component {
                                     id: errDelegate
                                     Row {
@@ -1389,12 +1354,11 @@ Window {
                                         }
                                     }
                                 }
-
                                 ListView {
+                                    id: errView
                                     model: errModel
                                     delegate: errDelegate
                                     anchors.fill: parent
-
                                 }
                             }
 
