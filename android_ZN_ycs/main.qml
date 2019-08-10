@@ -20,24 +20,29 @@ Window {
 
     property var stsColorArr: ["#A9A9A9", "#FFC125", "#EEEE00", "#43CD80", "#EE3B3B"]    // 对应设备的离线、待机、怠速、运行、报警5个状态
     property var mcName: ["GSJ005", "GSJ006", "SKJ005", "SKJ006", "SKJ010", "SKJ011", "SKJ012", "SKJ013"]
+
+    //每台设备操作员名称，从0到7与mcName的机器分别对应
+    //待改为实际员工对应的机器
+    property var staffName: ["吴国兴","赵文峰", "王向前", "陈勇驰", "乔国才", "杨吉", "周定武"]
     property int indexPage: 0;    // 故障代码生成器的页面状态值，确定当前所在的页面
-    property int mcPage: 0;
+    property int mcPage: 0;       //用于Como
     property string tabSel: "content/tab_selected.png"
     property string tabSeless: "content/tab.png"
 
     //计数器
     property int i: 0
     property int k: 0
+
     //开机比
     property var rate1: 1
     property var rate2: 2
 
-    //设备状态图
-    property int value1: 4     //运行
-    property int value2: 2   //待机
-    property int value3: 3   //怠速
-    property int value4: 2   //离线
-    property int value5: 1   //报警
+    //设备状态图,各种设备运行、待机、怠速、离线、报警数据
+    property int value1: 4   //运行总数
+    property int value2: 2   //待机总数
+    property int value3: 3   //怠速总数
+    property int value4: 2   //离线总数
+    property int value5: 1   //报警总数
 
     property int m1: 12
     property int m1_0: 4
@@ -101,14 +106,12 @@ Window {
 
     // 屏幕适配标志位
     property real screenRate: (1080/win.width).toFixed(3);
-    property var faultPageSts: 0
-    property bool flag: false;
 
     //TCP连接
     property string target_ip: "127.0.0.1"
     property int target_port: 8080
 
-
+    //显示日期
     Timer {
         interval: 500;
         running: true;
@@ -116,18 +119,18 @@ Window {
         onTriggered: time.text = Qt.formatDateTime(new Date(), "yyyy年MM月dd日 hh:mm dddd")
         // 星期 年份 月份 号 大月份
     }
-    property string date1: "2019-07-01"
-    property string date2: Qt.formatDateTime(new Date(),"yyyy-MM-dd")
-    property int idays : 0
 
-
+    //从后端获取数据，获取后处理
     TcpClient
     {
         id: tcpclient
         onDataComing: {
             //text1.text += " \nip: " + ip + " \nport: " + port + " \ndata: " + data
-            rate1 = data[0]
-            rate2 = data[1]
+            var id_errRun = new Array()         //设备编号数组
+            var speed_errRun = new Array()      //设备转速数组
+            var feedrate_errRun = new Array()   //设备进给数组
+            rate1 = data[0]   //运行设备分子
+            rate2 = data[1]   //所有设备数
 
             value1 = data[2]  //全部离线数
             value2 = data[3]　//全部待机数
@@ -192,14 +195,16 @@ Window {
             m8_4 = data[54]　 //SKJ013报警数
 
             j = data[55]
-            setspeed_errRun = data[56]
-            setfeedrate_errRun = data[57]
+            setspeed_errRun = data[56]        //机器设定速度
+            setfeedrate_errRun = data[57]     //机器设定进给速度
 
-            //            for (i=0,k=58;i<j;i++){
-            //                sendArr[k++] = id_errRun[i]  //机器编号
-            //                sendArr[k++] = speed_errRun[i]　//该机器错误转速
-            //                sendArr[k++] = feedrate_errRun[i]　//该机器错误进给
-            //            }
+            for (i=0,k=58;i<j;i++){
+                id_errRun[i] = data[k++]        //机器编号
+                speed_errRun[i] = data[k++]     //机器错误转速
+                feedrate_errRun[i] = data[k++]  //机器错误进给
+            }
+            //异常加工页面数据设定，异常运行为运行数，异常待机为待机数，异常报警为报警数
+            //异常运行、异常待机待更改
             for (i=0,k=11;i<8;i++){
                 runView.model.append({"number":i,"name":mcName[i],"account":data[k]})
                 waitView.model.append({"number":i,"name":mcName[i],"account":data[k-2]})
@@ -234,13 +239,12 @@ Window {
         }
     }
 
-
+    //主体部分，tab切换仅切换主体
     Column {
         id: mainRow;
         width: win.width;
         height: win.height-254/screenRate;
         anchors.top: rect1_bgImg.bottom;
-
         //实时监控
         Rectangle {
             id: real_time;
@@ -291,7 +295,7 @@ Window {
                 }
             }
 
-            //时间
+            //显示当前时间
             Rectangle{
                 id: rect0_time
                 width: parent.width
@@ -326,15 +330,11 @@ Window {
 
             //设备实时状态，饼形图
             Column {
-                // anchors.fill: parent
-                // property var othersSlice: 0
                 id: rect2_state;
                 width: mainRow.width
                 height: parent.height*15/30
-                //color: "#fff";
-                //anchors.top : rect2_option.bottom
                 anchors.top : rect0_alart.bottom
-                //标签
+                //五个标签，显示具体数字
                 Rectangle{
                     width: parent.width * 18 / 30
                     height: parent.height * 1 /6
@@ -509,27 +509,17 @@ Window {
                                 }
                             }
                         }
-
-
                     }
                 }
 
                 Rectangle{
                     width: parent.width
                     height: parent.height * 5 / 6
-                    //anchors.top : rect2_state.bottom
                     ChartView {
                         id: chart
                         anchors.fill: parent
                         legend.visible: false   // 是否显示
                         antialiasing: true
-                        //title: "设备实时状态"
-                        //height: parent.height
-                        // 示例的位置
-                        //                legend.alignment: Qt.AlignLeft
-                        // 边缘更加圆滑
-                        //titleFont : 12
-                        //color: "#8AB846"; borderColor: "#163430" ;
                         PieSeries {
                             id: pieSeries
                             size: 0.7
@@ -566,13 +556,12 @@ Window {
             height : parent.height
             color: "#000070"
             visible: indexPage==1;
-            //选择栏
 
             Column{
                 id : column0
                 width: parent.width
                 height: parent.height
-
+                //选择栏
                 Rectangle{
                     id: rect1_Box
                     width:parent.width
@@ -614,6 +603,8 @@ Window {
                     }
                 }
 
+                //主体部分
+
                 //GSJ005
                 Rectangle {
                     width: parent.width;
@@ -624,7 +615,6 @@ Window {
                         anchors.fill: parent
                         theme: ChartView.ChartThemeQt
                         antialiasing: true
-                        //legend.visible: false
                         animationOptions: ChartView.AllAnimations
                         legend{
                             visible: false
@@ -681,7 +671,6 @@ Window {
                         anchors.fill: parent
                         theme: ChartView.ChartThemeQt
                         antialiasing: true
-                        //legend.visible: false
                         animationOptions: ChartView.AllAnimations
                         legend{
                             visible: false
@@ -906,7 +895,6 @@ Window {
                         anchors.fill: parent
                         theme: ChartView.ChartThemeQt
                         antialiasing: true
-                        //legend.visible: false
                         animationOptions: ChartView.AllAnimations
                         legend{
                             visible: false
@@ -963,7 +951,6 @@ Window {
                         anchors.fill: parent
                         theme: ChartView.ChartThemeQt
                         antialiasing: true
-                        //legend.visible: false
                         animationOptions: ChartView.AllAnimations
                         legend{
                             visible: false
@@ -1020,7 +1007,6 @@ Window {
                         anchors.fill: parent
                         theme: ChartView.ChartThemeQt
                         antialiasing: true
-                        //legend.visible: false
                         animationOptions: ChartView.AllAnimations
                         legend{
                             visible: false
@@ -1068,7 +1054,6 @@ Window {
                     }
                 }
             }
-
         }
 
         //异常加工
@@ -1078,13 +1063,12 @@ Window {
             height : parent.height
             color: "#000070"
             visible: indexPage==2;
-            //选择栏
 
             Column{
                 id : column2
                 width: parent.width
                 height: parent.height
-
+                //选择栏
                 Rectangle{
                     id: rect3_err
                     width:parent.width
@@ -1115,12 +1099,12 @@ Window {
                     }
                 }
 
+                //列表部分
                 Rectangle{
                     width: parent.width * 95 / 100
                     height: parent.height * 6/7
                     anchors.horizontalCenter: parent.horizontalCenter   //水平居中
                     color:"#000070"
-                    //visible: mcPage == 0 ? true : false
                     Column {
                         anchors.margins: 1;
                         anchors.fill: parent;
@@ -1191,21 +1175,21 @@ Window {
                                 ListModel {
                                     id: runModel
                                     property string language: "en"
-//                                    ListElement {
-//                                        number: 1
-//                                        name: "GSJ005"
-//                                        account: 3
-//                                    }
-//                                    ListElement {
-//                                        number: 2
-//                                        name: "GSJ006"
-//                                        account: 4
-//                                    }
-//                                    ListElement {
-//                                        number: 3
-//                                        name: "SKJ005"
-//                                        account: 5
-//                                    }
+                                    //                                    ListElement {
+                                    //                                        number: 1
+                                    //                                        name: "GSJ005"
+                                    //                                        account: 3
+                                    //                                    }
+                                    //                                    ListElement {
+                                    //                                        number: 2
+                                    //                                        name: "GSJ006"
+                                    //                                        account: 4
+                                    //                                    }
+                                    //                                    ListElement {
+                                    //                                        number: 3
+                                    //                                        name: "SKJ005"
+                                    //                                        account: 5
+                                    //                                    }
                                 }
 
                                 Component {
@@ -1260,11 +1244,11 @@ Window {
                                 color:"#000070"
                                 ListModel {
                                     id: waitModel
-//                                    ListElement {
-//                                        number: 1
-//                                        name: "GSJ005"
-//                                        account: 3
-//                                    }
+                                    //                                    ListElement {
+                                    //                                        number: 1
+                                    //                                        name: "GSJ005"
+                                    //                                        account: 3
+                                    //                                    }
                                 }
 
                                 Component {
@@ -1318,11 +1302,11 @@ Window {
                                 color:"#000070"
                                 ListModel {
                                     id: errModel
-//                                    ListElement {
-//                                        number: 1
-//                                        name: "GSJ005"
-//                                        account: 3
-//                                    }
+                                    //                                    ListElement {
+                                    //                                        number: 1
+                                    //                                        name: "GSJ005"
+                                    //                                        account: 3
+                                    //                                    }
                                 }
                                 Component {
                                     id: errDelegate
@@ -1365,8 +1349,6 @@ Window {
                         }
                     }
                 }
-
-
             }
         }
 
@@ -1377,13 +1359,13 @@ Window {
             height : parent.height
             color: "#000070"
             visible: indexPage==3;
-            //选择栏
 
             Column{
                 id : column3
                 width: parent.width
                 height: parent.height
 
+                //选择栏
                 Rectangle{
                     id: rect4_effort
                     width:parent.width
@@ -1409,12 +1391,13 @@ Window {
                         }
                     }
                 }
-                //换刀数据统计
+
+                //数据显示部分
+                //换刀数据统计，数据是固定的，从数据库读取待做
                 Rectangle{
                     width: parent.width
                     height: parent.height * 6/7
                     anchors.horizontalCenter: parent.horizontalCenter   //水平居中
-                    //anchors.rightMargin: 20/screenRate
                     color:"#000070"
                     visible: mcPage == 0 ? true : false
                     ChartView {
@@ -1433,8 +1416,6 @@ Window {
                 Rectangle{
                     width: parent.width
                     height: parent.height * 6/7
-
-                    //anchors.rightMargin: 20/screenRate
                     color:"#000070"
                     visible: mcPage == 1 ? true : false
                     // 表头
@@ -1525,7 +1506,6 @@ Window {
                     width: parent.width
                     height: parent.height * 6/7
                     anchors.horizontalCenter: parent.horizontalCenter   //水平居中
-                    //anchors.rightMargin: 20/screenRate
                     color:"#000070"
                     visible: mcPage == 2 ? true : false
                     // 表头
@@ -1616,6 +1596,7 @@ Window {
         }
     }
 
+    //tabbar部分
     Column{
         id: tab
         width: win.width
@@ -1623,11 +1604,8 @@ Window {
         anchors.top: mainRow.bottom
         anchors.bottom: win.bottom
 
-        // tab图片切换
+        //tab图片切换
         Item{
-            // anchors.topMargin: 50;
-            // width: parent.width;
-            // height: 30;
             id: tab_photo;
             width: parent.width;
             height: parent.height/15*9;
@@ -1736,16 +1714,12 @@ Window {
 
         //tab文字切换
         Item{
-            // anchors.topMargin: 50;
-            // width: parent.width;
-            // height: 30;
             id: tab_word;
             width: parent.width;
             height: parent.height/8;
             Row{
                 width: parent.width;
                 height: parent.height;
-                // anchors.top : parent.top;
                 //实时监控
                 Item {
                     width: (parent.width)/5;
@@ -1854,19 +1828,10 @@ Window {
         }
     }
 
-
+    //tab切换函数
     function setCurrentFault(index)
     {
-        // visible状态
         indexPage = index;
-        // 箭头移动
-        //tabOBDII.anchors.leftMargin = tabOBDII.width*index;
-    }
-
-    function selectPage(index)
-    {
-        pageIndex = index;;
-        selectItem.anchors.leftMargin = selectItem.width*index;
     }
 
 }
