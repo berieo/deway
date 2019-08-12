@@ -12,7 +12,7 @@ Window {
     width: 480;
     height: 320;
     color: "#dcdcdc";
-    visible: true;
+    visible: false;
 
     property int socket_ptr: 0
     property string local_IP: "127.0.0.1"
@@ -96,10 +96,11 @@ Window {
     property int m8_3 : 0    //SKJ013运行数
     property int m8_4 : 0    //SKJ013报警数
 
-
+    //暂设转速为 设定速度/100,进给速度为 设定进给速度/100
+    //暂设设定速度为2000,设定进给速度为2000
+    //待改进为实际设置速度
     property var setspeed_errRun : 20 // 设定转速/100
     property var setfeedrate_errRun : 20 // 设定进给速度/100
-
 
     DB {
         id: dbQuery;
@@ -109,6 +110,11 @@ Window {
     Component.onCompleted: {
         initDBServerQuery(loginName,passWord,dbDriver,dbNameCNC);
         text0.text = dbQueConnectFlag
+
+        //开始监听
+        tcpserver.listen(local_IP, local_port);
+        var ipAddressPool = tcpserver.getLocalIP();
+        text2.text += "\n IP地址池：" + ipAddressPool;
     }
 
     TcpServer{
@@ -385,9 +391,9 @@ Window {
                     }
 
                     for (i=0,k=58;i<j;i++){
-                        sendArr[k++] = id_errRun[i]
-                        sendArr[k++] = speed_errRun[i]
-                        sendArr[k++] = feedrate_errRun[i]
+                        sendArr[k++] = id_errRun[i]  //机器编号
+                        sendArr[k++] = speed_errRun[i]　//该机器错误转速
+                        sendArr[k++] = feedrate_errRun[i]　//该机器错误进给
                     }
                 }
 
