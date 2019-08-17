@@ -12,13 +12,17 @@ Window {
     color: "#dcdcdc";
     visible: true;
 
-    //本地测试
+    //本地连接
     property string target_ip: "127.0.0.1"
     property int target_port: 8080
 
+    //局域网内连接
+//    property string target_ip: "192.168.1.5"
+//    property int target_port: 9212
+
     //云服务器连接
-    //    property string target_ip: "47.99.223.66"
-    //    property int target_port: 9212
+//      property string target_ip: "47.99.223.66"
+//      property int target_port: 9212
 
     TcpClient
     {

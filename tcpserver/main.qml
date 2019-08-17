@@ -6,17 +6,27 @@ import dw.TcpServer 1.0
 import dw.DB 1.0
 
 Window {
-    id: root
-    x: 20;
-    y: 20;
-    width: 480;
-    height: 320;
-    color: "#dcdcdc";
-    visible: false;
+//    id: root
+//    x: 20;
+//    y: 20;
+//    width: 480;
+//    height: 320;
+//    color: "#dcdcdc";
+//    visible: true;
 
     property int socket_ptr: 0
+
+    //本地连接
     property string local_IP: "127.0.0.1"
     property int local_port: 8080
+
+    //局域网内连接
+//    property string local_IP: "192.168.1.5"
+//    property int local_port: 9212
+
+    //服务器连接
+//    property string local_IP: "47.99.223.66"
+//    property int local_port: 9212
 
     // 服务器数据库参数配置及相关参数
     property string dbDriver: "mysql"
@@ -109,21 +119,24 @@ Window {
 
     Component.onCompleted: {
         initDBServerQuery(loginName,passWord,dbDriver,dbNameCNC);
-        text0.text = dbQueConnectFlag
-
+        //text0.text = dbQueConnectFlag
+        console.log("Running")
         //开始监听
         tcpserver.listen(local_IP, local_port);
         var ipAddressPool = tcpserver.getLocalIP();
-        text2.text += "\n IP地址池：" + ipAddressPool;
+        //text2.text += "\n IP地址池：" + ipAddressPool;
     }
 
     TcpServer{
         id: tcpserver
         onDataComing: {
-            text2.text += "\n ip: " + ip + " port: " + port + " data: " + data;
+            //text2.text += "\n ip: " + ip + " port: " + port + " data: " + data;
         }
         onNewConnection: {
             socket_ptr = socketptr;
+            var test = new Array(1)
+            test[0] = 1
+            //tcpserver.sendToHost(socket_ptr,test[0]);
             //需要发送数据的个数
             var sendArr = new Array(100)
             var sendArr_real = new Array(100)
@@ -397,7 +410,7 @@ Window {
                     }
                 }
 
-                text1.text = sendArr[0]
+                //text1.text = sendArr[0]
                 sendArr[55] = j
                 sendArr[56] = setspeed_errRun
                 sendArr[57] = setfeedrate_errRun
@@ -406,7 +419,7 @@ Window {
                     tcpserver.sendToHost(socket_ptr, sendArr.slice(0,58+j*3));
                 }
                 else{
-                    text1.text += "\naccept Fail"
+                    //text1.text += "\naccept Fail"
                 }
                 //初始化
                 i = 0
@@ -476,67 +489,67 @@ Window {
         }
     }
 
-    Button {
-        id: button1
-        x: 99
-        y: 37
-        text: "开始监听"
-        onClicked: {
-            tcpserver.listen(local_IP, local_port);
-            var ipAddressPool = tcpserver.getLocalIP();
-            text2.text += "\n IP地址池：" + ipAddressPool;
-        }
-    }
+//    Button {
+//        id: button1
+//        x: 99
+//        y: 37
+//        text: "开始监听"
+//        onClicked: {
+//            tcpserver.listen(local_IP, local_port);
+//            var ipAddressPool = tcpserver.getLocalIP();
+//            text2.text += "\n IP地址池：" + ipAddressPool;
+//        }
+//    }
 
-    Button {
-        id: button2
-        x: 251
-        y: 37
-        text: "回复数据"
-        onClicked: {
-            var sendString = "16,15";
-            tcpserver.sendToHost(socket_ptr, sendString.slice(1,57));
-        }
-    }
+//    Button {
+//        id: button2
+//        x: 251
+//        y: 37
+//        text: "回复数据"
+//        onClicked: {
+//            var sendString = "16,15";
+//            tcpserver.sendToHost(socket_ptr, sendString.slice(1,57));
+//        }
+//    }
 
-    Text {
-        id: text0
-        x: 370
-        y: 43
-        width: 464
-        height: 246
-        text: qsTr("test")
-    }
+//    Text {
+//        id: text0
+//        x: 370
+//        y: 43
+//        width: 464
+//        height: 246
+//        text: qsTr("test")
+//    }
 
-    Text {
-        id: text1
-        x: 420
-        y: 43
-        width: 464
-        height: 246
-        text: qsTr("test")
-    }
+//    Text {
+//        id: text1
+//        x: 420
+//        y: 43
+//        width: 464
+//        height: 246
+//        text: qsTr("test")
+//    }
 
-    Text {
-        id: text2
-        x: 8
-        y: 66
-        width: 464
-        height: 246
-        text: qsTr("Info")
-        wrapMode: Text.WrapAnywhere
-        font.pixelSize: 14
-    }
+//    Text {
+//        id: text2
+//        x: 8
+//        y: 66
+//        width: 464
+//        height: 246
+//        text: qsTr("Info")
+//        wrapMode: Text.WrapAnywhere
+//        font.pixelSize: 14
+//    }
 
-    Label {
-        id: label1
-        x: 192
-        y: 8
-        width: 96
-        height: 28
-        text: "TCP服务器端"
-        font.pointSize: 16
-    }
+//    Label {
+//        id: label1
+//        x: 192
+//        y: 8
+//        width: 96
+//        height: 28
+//        text: "TCP服务器端"
+//        font.pointSize: 16
+//    }
     //连接数据库
     function initDBServerQuery(vLoginName, vPassWord, vDBDriver, vDBName) {
         dbQuery.addDatabaseDB( vDBDriver );
