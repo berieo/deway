@@ -8,6 +8,8 @@
 |h5_to_pb.py     |h5模型转换为pb模型 |需要更改输入输出路径 |
 |pb模型转IR模型    |pb模型转ir模型命令|在终端执行，需要输入pb模型的size|
 |pb模型转lite模型  |pb模型转lite模型命令|如果不知道size可以直接运行，运行后会返回一个size，用这个size再运行一次。pb转ir模型时，pb模型size不知道的时候可以用这个命令去获得size。|
+<br/>
+<br/>
 
 > #### 1. 转化lite模型前需要安装tensorflow lite，转化ir模型前需要安装openvino。  
 > #### 2. 转化ir、lite模型的思路为，先将h5、ckpt、keras模型转为pb模型，然后将pb模型转为lite、ir模型。  
