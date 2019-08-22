@@ -2,7 +2,7 @@
 |文件夹              |存放文件                          |
 |----               |----                            |
 |andriod_ZN         |App之前的版本                     |  
-|andriod_ZN_ycs     |App最后一次修改版本                |
+|Andriod_app        |App最后一次修改版本                |
 |convert            |AI模型转换的脚本                   |
 |drive/Camere       |简化后的SmartAgent调用摄像头的代码  |
 |dumps              |数据库sql文件                     |
