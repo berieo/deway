@@ -11,3 +11,7 @@ ubuntu Desktop不需加库，直接运行即可，
 Centos需要在usr/lib下添加缺少的库
 添加后要执行ldconfig更新链接库
 同样需要ssh -X去访问
+
+4. 注意事项
+在服务器端运行要将window的id、width、height、visible等属性都去掉
+不要添加任何可视化组件
