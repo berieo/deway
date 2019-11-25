@@ -9,3 +9,5 @@
 |notes              |一些注意事项                      |  
 |tcpclient          |SmartAgent调试服务器的客户端代码    |
 |test               |存放着服务器测试代码                |
+
+在厦门实习时写的代码，主要是用QT写的App
